@@ -20,7 +20,6 @@
         "indent": [
             "error",
             4
-        ],
-        "react/prefer-stateless-function": 0
+        ]
     }
 }
