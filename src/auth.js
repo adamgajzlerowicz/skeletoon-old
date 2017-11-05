@@ -1,3 +1,13 @@
 import jwt from 'jsonwebtoken';
-// const jwt = require('jsonwebtoken');
+import bcrypt from 'bcrypt';
 
+import { hash } from '../.env.json';
+
+
+const login = ({ username, password }) => {
+
+};
+
+export {
+    login as default, login,
+};

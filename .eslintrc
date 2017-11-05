@@ -16,6 +16,10 @@
                     "invalidHref"
                 ]
             }
+        ],
+        "indent": [
+            "error",
+            4
         ]
     }
 }
