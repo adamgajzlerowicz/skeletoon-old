@@ -10,12 +10,12 @@ const rootEl = document.getElementById('root');
 ReactDOM.render(<Router />, rootEl);
 
 if (module.hot) {
-  module.hot.accept('./Router', () => {
+  module.hot.accept('./router', () => {
     // eslint-disable-next-line
-        const NextApp = require('./ Router').default;
+    const NextApp = require('./router').default;
     ReactDOM.render(
-            <NextApp />,
-            rootEl,
+        <NextApp />,
+        rootEl,
     );
   });
 }
