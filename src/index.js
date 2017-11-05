@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Router from './router';
 import registerServiceWorker from './registerServiceWorker';
 
 
 const rootEl = document.getElementById('root');
 
-ReactDOM.render(<App />, rootEl);
+ReactDOM.render(<Router />, rootEl);
 
 if (module.hot) {
-  module.hot.accept('./App', () => {
+  module.hot.accept('./Router', () => {
     // eslint-disable-next-line
-    const NextApp = require('./App').default;
+        const NextApp = require('./ Router').default;
     ReactDOM.render(
             <NextApp />,
             rootEl,
