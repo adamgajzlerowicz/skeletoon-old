@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
 
-const app = express();
 const port = process.env.PORT || 8080;
 const path = require('path');
+
+const app = express();
 
 app.use(express.static('build'));
 
@@ -11,4 +12,4 @@ app.all('*', (req, res) => {
 });
 
 app.listen(port);
-console.log(` Listening on port ${port}`);
+console.log(`http://localhost:${port}`);
