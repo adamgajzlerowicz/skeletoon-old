@@ -67,6 +67,7 @@ app.post('/auth/login', (req, res) => {
 
         return res.json({ user, token });
     });
+    return true;
 });
 
 app.all('*', (req, res) => {
