@@ -1,20 +1,20 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
-  Route,
-  Link,
+    BrowserRouter as Router,
+    Route,
+    Link,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 
 const Navigation = () =>
-  (
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/login">Login</Link></li>
-      </ul>
-  );
+    (
+        <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/login">Login</Link></li>
+        </ul>
+    );
 
 const App = () => (
     <Router>
@@ -43,17 +43,17 @@ const About = () => (
 
 const Login = ({ match }) => (
     <div style={{
- width: 200, padding: 30, margin: '0 auto', textAlign: 'center',
-}}
+        width: 200, padding: 30, margin: '0 auto', textAlign: 'center',
+    }}
     >
         <h2>Login</h2>
-         <TextField placeholder="login" style={{ width: '100%' }} />
-         <TextField type="password" placeholder="password" style={{ width: '100%' }} />
+        <TextField placeholder="login" style={{ width: '100%' }} />
+        <TextField type="password" placeholder="password" style={{ width: '100%' }} />
     </div>
 );
 
 const RoutePropTypes = {
-  match: PropTypes.Object,
+    match: PropTypes.Object,
 };
 
 Login.propTypes = RoutePropTypes;

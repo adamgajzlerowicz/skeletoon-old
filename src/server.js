@@ -32,8 +32,6 @@ app.use(express.static('../build'));
 app.post('/auth/login', (req, res) => {
     const { body: { username, password } } = req;
 
-    console.log(username);
-
     if (!username) {
         return res.status(404).json({
             error: true,
@@ -55,8 +53,8 @@ app.post('/auth/login', (req, res) => {
         });
     }
 
-    bcrypt.compare(password, DBpassword).then((result) => {
-        if (!result) {
+    bcrypt.compare(password, DBpassword).then((valid) => {
+        if (!valid) {
             return res.status(404).json({
                 error: true,
                 message: 'Username of password incorrect',
@@ -67,7 +65,7 @@ app.post('/auth/login', (req, res) => {
             expiresIn: 60 * 60 * 24, // expires in 24 hours
         });
 
-        return res.send(token);
+        return res.json({ user, token });
     });
 });
 
@@ -77,4 +75,5 @@ app.all('*', (req, res) => {
 
 
 app.listen(port);
+// eslint-disable-next-line
 console.log(`http://localhost:${port}`);
