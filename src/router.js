@@ -4,8 +4,8 @@ import {
     Route,
     Link,
 } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
+
+import Login from './components/auth/login';
 
 const Navigation = () =>
     (
@@ -40,22 +40,5 @@ const About = () => (
         <h2>About</h2>
     </div>
 );
-
-const Login = ({ match }) => (
-    <div style={{
-        width: 200, padding: 30, margin: '0 auto', textAlign: 'center',
-    }}
-    >
-        <h2>Login</h2>
-        <TextField placeholder="login" style={{ width: '100%' }} />
-        <TextField type="password" placeholder="password" style={{ width: '100%' }} />
-    </div>
-);
-
-const RoutePropTypes = {
-    match: PropTypes.Object,
-};
-
-Login.propTypes = RoutePropTypes;
 
 export default App;
