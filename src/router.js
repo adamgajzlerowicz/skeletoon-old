@@ -5,13 +5,14 @@ import {
   Link,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import TextField from 'material-ui/TextField';
 
 const Navigation = () =>
   (
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
-        <li><Link to="/topics">Topics</Link></li>
+        <li><Link to="/login">Login</Link></li>
       </ul>
   );
 
@@ -23,7 +24,7 @@ const App = () => (
 
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
-            <Route path="/topics" component={Topics} />
+            <Route path="/login" component={Login} />
         </div>
     </Router>
 );
@@ -40,41 +41,14 @@ const About = () => (
     </div>
 );
 
-const Topics = ({ match }) => (
-    <div>
-        <h2>Topics</h2>
-        <ul>
-            <li>
-                <Link to={`${match.url}/rendering`}>
-                    Rendering with React
-                </Link>
-            </li>
-            <li>
-                <Link to={`${match.url}/components`}>
-                    Components
-                </Link>
-            </li>
-            <li>
-                <Link to={`${match.url}/props-v-state`}>
-                    Props v. State
-                </Link>
-            </li>
-        </ul>
-
-        <Route path={`${match.url}/:topicId`} component={Topic} />
-        <Route
-          exact
-          path={match.url}
-          render={() => (
-            <h3>Please select a topic.</h3>
-        )}
-        />
-    </div>
-);
-
-const Topic = ({ match }) => (
-    <div>
-        <h3>{match.params.topicId}</h3>
+const Login = ({ match }) => (
+    <div style={{
+ width: 200, padding: 30, margin: '0 auto', textAlign: 'center',
+}}
+    >
+        <h2>Login</h2>
+         <TextField placeholder="login" style={{ width: '100%' }} />
+         <TextField type="password" placeholder="password" style={{ width: '100%' }} />
     </div>
 );
 
@@ -82,8 +56,6 @@ const RoutePropTypes = {
   match: PropTypes.Object,
 };
 
-Topic.propTypes = RoutePropTypes;
-Topics.propTypes = RoutePropTypes;
-
+Login.propTypes = RoutePropTypes;
 
 export default App;
