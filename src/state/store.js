@@ -1,20 +1,14 @@
-// @todo please document - check api/phClient correct location
-import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware from 'redux-saga';
 
-import rootReducer from './reducers';
+import rootReducer from './reducers/index';
 
+const middleware = [];
 
-export default function makeStore({ client, enableApi } = {}) {
-    // const middlewares = [sagaMiddleware];
+// eslint-disable-next-line
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, undefined, composeEnhancers(applyMiddleware(...middleware)));
 
-    const store = createStore(rootReducer, undefined, compose(
-        applyMiddleware(...middlewares),
-        process.env && window.devToolsExtension ? window.devToolsExtension() : f => f,
-    ));
+export {
+    store as default,
+};
 
-    // sagaMiddleware.run(rootSaga);
-
-    return store;
-}

@@ -4,8 +4,11 @@ import {
     Route,
     Link,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
+import store from './state/store';
 import Login from './components/auth/login';
+
 
 const Navigation = () =>
     (
@@ -17,16 +20,18 @@ const Navigation = () =>
     );
 
 const App = () => (
-    <Router>
-        <div>
-            <Navigation />
-            <hr />
+    <Provider store={store}>
+        <Router>
+            <div>
+                <Navigation />
+                <hr />
 
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/login" component={Login} />
-        </div>
-    </Router>
+                <Route exact path="/" component={Home} />
+                <Route path="/about" component={About} />
+                <Route path="/login" component={Login} />
+            </div>
+        </Router>
+    </Provider>
 );
 
 const Home = () => (
