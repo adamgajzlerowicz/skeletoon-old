@@ -15,7 +15,7 @@ const LoginForm = ({ handleSubmit, ...props }) => {
         >
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
-                <Field name="login" placeholder="login" style={{ width: '100%' }} component={TextField} />
+                <Field name="username" placeholder="login" style={{ width: '100%' }} component={TextField} />
                 <Field name="password" type="password" placeholder="password" style={{ width: '100%' }} component={TextField} />
                 <Button raised dense type="submit">
                     Submit
