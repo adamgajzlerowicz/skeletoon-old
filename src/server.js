@@ -27,8 +27,6 @@ const DBpassword = '$2a$10$kNm1ChJZ8.4WJTopz8BJQO1pTyEqgTwcPWTquEUjqQTe4Ff//Iktq
 /**
  *          Router
  */
-app.use(express.static('../build'));
-
 app.post('/auth/login', (req, res) => {
     const { body: { username, password } } = req;
 
@@ -69,6 +67,8 @@ app.post('/auth/login', (req, res) => {
     });
     return true;
 });
+
+app.use('/static', express.static(path.join(__dirname, '../build/static')));
 
 app.all('*', (req, res) => {
     res.sendFile(path.join(`${__dirname}/../build/index.html`));
