@@ -4,8 +4,10 @@ import { reduxForm, Field } from 'redux-form';
 import Button from 'material-ui/Button';
 import { TextField } from 'redux-form-material-ui';
 
-const LoginForm = ({ handleSubmit }) => {
-    console.log(handleSubmit);
+import login from '../../state/ducks/auth';
+
+const LoginForm = ({ handleSubmit, ...props }) => {
+    console.log(props);
     return (
         <div style={{
             width: 200, padding: 30, margin: '0 auto', textAlign: 'center',
@@ -30,6 +32,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
     onSubmit: (data) => {
+        dispatch(login(data));
         console.log(data);
     },
 });
