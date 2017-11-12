@@ -17,8 +17,7 @@ const setToken = (token) => {
 
 function* login(action) {
     try {
-        const { data: { user, token } } = yield call(attemptLogin, action.payload);
-        console.log(user);
+        const { data: { token } } = yield call(attemptLogin, action.payload);
         yield call(setToken, token);
         yield put({ type: 'USER_FETCH_SUCCEEDED', payload: {} });
     } catch (e) {
