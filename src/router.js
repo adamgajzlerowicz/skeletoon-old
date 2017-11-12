@@ -36,7 +36,7 @@ const App = () => (
 
 const Home = () => (
     <div>
-        <h2>Home</h2>
+        <h2>Home dupa</h2>
     </div>
 );
 

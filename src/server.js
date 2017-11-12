@@ -31,31 +31,27 @@ app.post('/auth/login', (req, res) => {
     const { body: { username, password } } = req;
 
     if (!username) {
-        return res.status(404).json({
-            error: true,
-            message: 'Username is missing',
+        return res.status(403).json({
+            error: 'Username is missing',
         });
     }
 
     if (!password) {
-        return res.status(404).json({
-            error: true,
-            message: 'Password is missing',
+        return res.status(403).json({
+            error: 'Password is missing',
         });
     }
 
     if (username !== user.name) {
-        return res.status(404).json({
-            error: true,
-            message: 'Username of password incorrect',
+        return res.status(403).json({
+            error: 'Wrong credentials',
         });
     }
 
     bcrypt.compare(password, DBpassword).then((valid) => {
         if (!valid) {
-            return res.status(404).json({
-                error: true,
-                message: 'Username of password incorrect',
+            return res.status(403).json({
+                error: 'Wrong credentials',
             });
         }
 

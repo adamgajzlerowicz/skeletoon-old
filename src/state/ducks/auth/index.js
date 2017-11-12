@@ -1,5 +1,6 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
+import { SubmissionError } from 'redux-form';
 
 const LOGIN = 'LOGIN';
 
@@ -8,22 +9,27 @@ const loginAction = data => ({ type: LOGIN, payload: data });
 
 // sagas:
 
-const attemptLogin = (data) => {
-    axios.post('/auth/login', data);
+const attemptLogin = data => axios.post('/auth/login', data);
+
+const setToken = (token) => {
+    sessionStorage.setItem('token', token);
 };
 
 function* login(action) {
     try {
-        const token = yield call(attemptLogin, action.payload);
-        console.log(token);
+        const { data: { user, token } } = yield call(attemptLogin, action.payload);
+        console.log(user);
+        yield call(setToken, token);
         yield put({ type: 'USER_FETCH_SUCCEEDED', payload: {} });
     } catch (e) {
-        yield put({ type: 'USER_FETCH_FAILED', message: e.message });
+        throw new SubmissionError({
+            _error: 'dupa',
+        });
+        // yield put({ type: 'USER_FETCH_FAILED', message: e.message });
     }
 }
 
 function* saga() {
-    console.log('pusko');
     yield takeLatest(LOGIN, login);
 }
 
