@@ -65,13 +65,15 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "yarn concurrently 'yarn dev' 'yarn serve'",
+    "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "serve": "NODE_ENV=development nodemon --exec babel-node src/server.js",
     "lint": "eslint src --ext .js"
   },
   "devDependencies": {
+    "concurrently": "^3.5.0",
     "eslint": "^4.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "2.8.0",
