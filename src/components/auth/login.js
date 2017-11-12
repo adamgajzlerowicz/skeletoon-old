@@ -4,12 +4,13 @@ import { reduxForm, Field, SubmissionError } from 'redux-form';
 import Button from 'material-ui/Button';
 import { TextField } from 'redux-form-material-ui';
 import axios from 'axios';
-import { Map } from 'immutable';
 
 const login = data => new Promise((res, rej) => {
     axios.post('/auth/login', data)
-        .then((x) => {
-            console.log(x);
+        .then((resp) => {
+            const { token, user } = resp;
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('user', user);
             res();
         })
         .catch((e) => {
@@ -32,22 +33,26 @@ const validate = (data) => {
 };
 
 const LoginForm = ({
-    handleSubmit, valid, submitting, ...props
+    handleSubmit, error, submitSucceeded, valid, submitting, ...props
 }) => {
     console.log(props);
     return (
         <div style={{
-            width: 200, padding: 30, margin: '0 auto', textAlign: 'center',
+            width: 300, padding: 30, margin: '0 auto', textAlign: 'center',
         }}
         >
             <h2>Login</h2>
             <form onSubmit={handleSubmit(login)}>
-                <Field name="username" placeholder="login" style={{ width: '100%' }} component={TextField} />
-                <Field name="password" type="password" placeholder="password" style={{ width: '100%' }} component={TextField} />
-                <Button raised dense type="submit" disabled={!valid && !submitting}>
+                <Field name="username" label="login" style={{ width: '100%' }} component={TextField} />
+                <Field name="password" type="password" label="password" style={{ width: '100%', marginTop: 10 }} component={TextField} />
+
+                <div style={{ width: '100%', float: 'right' }}>
+                    <Button raised dense type="submit" disabled={!valid && !submitting} style={{ float: 'right', marginTop: 15 }}>
                     Submit
-                </Button>
-                {props.error}
+                    </Button>
+                </div>
+                <div style={{ width: '100%', color: 'red' }}>{error}</div>
+                {submitSucceeded && <div style={{ width: '100%', color: 'green' }}>Success</div>}
             </form>
         </div>
     );

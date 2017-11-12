@@ -4,6 +4,11 @@ body {
   font-family: sans-serif;
 }
 
+* {
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 300;
+}
+
 html {
   background-color: white;
 }
