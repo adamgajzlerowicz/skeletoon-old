@@ -72,7 +72,7 @@ const LoginForm = ({
 
             <div style={{ width: '100%', float: 'right' }}>
                 <Button raised dense type="submit" color="primary" disabled={!valid && !submitting} style={{ float: 'right', marginTop: 15 }}>
-    Submit
+                    Submit
                 </Button>
             </div>
             <div style={{ width: '100%', color: 'red' }}>{error}</div>
@@ -83,23 +83,21 @@ const LoginForm = ({
 
 const FormedLogin = reduxForm({ form: 'login', validate })(LoginForm);
 
-const submit = (data: FormType): Promise<*> => new Promise((res: () => void, rej: () => void) => {
-    axios.post('/auth/login', data)
-        .then((resp: SuccessResponseType) => {
-            const { token, user } = resp;
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('user', JSON.stringify(user));
-            res();
-        })
-        .catch((e: ErrorResponseType) => {
-            throw new SubmissionError({
-                _error: e.response.data.error,
+const submit = (data: FormType): Promise<*> =>
+    new Promise((res: () => void, rej: (SubmissionError) => void) => {
+        axios.post('/auth/login', data)
+            .then((resp: SuccessResponseType) => {
+                const { token, user } = resp;
+                sessionStorage.setItem('token', token);
+                sessionStorage.setItem('user', JSON.stringify(user));
+                res();
+            })
+            .catch((e: ErrorResponseType) => {
+                rej(new SubmissionError({
+                    _error: e.response.data.error,
+                }));
             });
-            // rej(new SubmissionError({
-            //     _error: e.response.data.error,
-            // }));
-        });
-});
+    });
 
 const mapDispatch = (dispatch: Dispatch<*>): { } => ({
     onSubmit: submit,
