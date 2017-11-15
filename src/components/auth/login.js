@@ -20,8 +20,10 @@ type UserType = {
 };
 
 type SuccessResponseType = {
-    token: string,
-    user: UserType
+    data: {
+        token: string,
+        user: UserType
+    }
 };
 
 type ErrorResponseType = {
@@ -87,7 +89,7 @@ const submit = (data: FormType): Promise<*> =>
     new Promise((res: () => void, rej: (SubmissionError) => void) => {
         axios.post('/auth/login', data)
             .then((resp: SuccessResponseType) => {
-                const { token, user } = resp;
+                const { data: { token, user } } = resp;
                 sessionStorage.setItem('token', token);
                 sessionStorage.setItem('user', JSON.stringify(user));
                 res();
