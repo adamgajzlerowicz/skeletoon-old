@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import {
     BrowserRouter as Router,
@@ -6,11 +8,13 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+import type { Component } from 'react';
+
 import store from './state/store';
 import Login from './components/auth/login';
 
 
-const Navigation = () =>
+const Navigation = (): Component =>
     (
         <ul>
             <li><Link to="/">Home</Link></li>
@@ -19,7 +23,7 @@ const Navigation = () =>
         </ul>
     );
 
-const App = () => (
+const App = (): Component => (
     <Provider store={store}>
         <Router>
             <div>
@@ -34,13 +38,13 @@ const App = () => (
     </Provider>
 );
 
-const Home = () => (
+const Home = (): Component => (
     <div>
         <h2>Home dupa</h2>
     </div>
 );
 
-const About = () => (
+const About = (): Comopnent => (
     <div>
         <h2>About</h2>
     </div>

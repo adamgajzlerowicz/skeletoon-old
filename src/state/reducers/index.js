@@ -1,7 +1,14 @@
+// @flow
+
 import { reducer as formReducer } from 'redux-form';
 import { combineReducers } from 'redux';
 
-const foo = (state = {}, action) => state;
+type ActionType = {
+    type: string,
+    payload: {}
+};
+
+const foo = <T>(state: T = {}, action: ActionType): T => state;
 
 const rootReducer = combineReducers({
     foo,
