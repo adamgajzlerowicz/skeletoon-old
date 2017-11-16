@@ -14,7 +14,7 @@ import store from './state/store';
 import Login from './components/auth/login';
 
 
-const Navigation = (): Element =>
+const Navigation = (): Element<*> =>
     (
         <ul>
             <li><Link to="/">Home</Link></li>
@@ -23,7 +23,7 @@ const Navigation = (): Element =>
         </ul>
     );
 
-const App = (): Element => (
+const App = (): Element<*> => (
     <Provider store={store}>
         <Router>
             <div>
@@ -38,13 +38,13 @@ const App = (): Element => (
     </Provider>
 );
 
-const Home = (): Element => (
+const Home = (): Element<*> => (
     <div>
         <h2>Home dupa</h2>
     </div>
 );
 
-const About = (): Comopnent => (
+const About = (): Element<*> => (
     <div>
         <h2>About</h2>
     </div>

@@ -46,13 +46,17 @@ const validate = (data: FormType): FormType => {
     return errors;
 };
 
+type PromiseType = Promise<*>;
+
+type OnSubmitType = FormType => PromiseType;
+
 type FormPropsType = {
     handleSubmit: (()=>void)=>void,
     error: boolean | void,
     submitSucceeded: boolean,
     valid: boolean,
     submitting: boolean,
-    onSubmit: FormType => Promise<*>
+    onSubmit: OnSubmitType
 };
 
 const LoginForm = ({
@@ -85,21 +89,22 @@ const LoginForm = ({
 
 const FormedLogin = reduxForm({ form: 'login', validate })(LoginForm);
 
-const submit = (data: FormType): Promise<*> => new Promise();
-// new Promise((res: () => void, rej: (SubmissionError) => void) => {
-// axios.post('/auth/login', data)
-//     .then((resp: SuccessResponseType) => {
-//         const { data: { token, user } } = resp;
-//         sessionStorage.setItem('token', token);
-//         sessionStorage.setItem('user', JSON.stringify(user));
-//         res();
-//     })
-//     .catch((e: ErrorResponseType) => {
-//         rej(new SubmissionError({
-//             _error: e.response.data.error,
-//         }));
-//     });
-// });
+const submit = (data: FormType): PromiseType =>
+    new Promise((res: () => void, rej: (SubmissionError) => void) => {
+        axios.post('/auth/login', data)
+            .then((resp: SuccessResponseType) => {
+                const { data: { token, user } } = resp;
+                sessionStorage.setItem('token', token);
+                sessionStorage.setItem('user', JSON.stringify(user));
+                res();
+            })
+            .catch((e: ErrorResponseType) => {
+                rej(new SubmissionError({
+                    _error: e.response.data.error,
+                }));
+            });
+    });
+
 
 const mapDispatch = (dispatch: Dispatch<*>): { } => ({
     onSubmit: submit,
