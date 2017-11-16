@@ -5,7 +5,7 @@ import { combineReducers } from 'redux';
 
 type ActionType = {
     type: string,
-    payload: {}
+    payload?: {}
 };
 
 const foo = <T>(state: T = {}, action: ActionType): T => state;
