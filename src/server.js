@@ -39,27 +39,53 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
         });
     }
 
+    type UserType = {
+        id: number,
+        firstName: string,
+        lastName: string,
+        username: string,
+        email: string,
+        password: string,
+        createdAt: Date,
+        updatedAt: Date
+    };
+
+    type SequelProResultType = {
+        dataValues: UserType,
+        _previousDataValues: UserType,
+         _changed: {},
+        _modelOptions: {},
+        _options: {},
+        isNewRecord: boolean
+    };
+
     User.findOne({ where: { username } })
-        .then((user): $Response => {
-            console.log(user);
+        .then((user: SequelProResultType): $Response => {
             if (!user) {
                 return res.status(403).json({
                     error: 'Wrong credentials',
                 });
             }
 
-            bcrypt.compare(password, user.dataValues.password, (err, valid: ?boolean): $Response => {
-                if (err || !valid) {
-                    return res.status(403).json({
-                        error: 'Wrong credentials',
-                    });
-                }
+            bcrypt.compare(
+                password, user.dataValues.password,
+                (err?: string, valid: ?boolean): $Response => {
+                    if (err || !valid) {
+                        return res.status(403).json({
+                            error: 'Wrong credentials',
+                        });
+                    }
 
-                const token = jwt.sign(user.dataValues, hash, {
-                    expiresIn: 60 * 60 * 24, // expires in 24 hours
-                });
-                return res.status(200).json({ user: { name: user.dataValues.username, email: user.dataValues.email }, token });
-            });
+                    const token = jwt.sign(user.dataValues, hash, {
+                        expiresIn: 60 * 60 * 24, // expires in 24 hours
+                    });
+                    return res.status(200)
+                        .json({ user: { name: user.dataValues.username,
+                            email: user.dataValues.email },
+                        token,
+                        });
+                },
+            );
 
             return res.status(404);
         });
