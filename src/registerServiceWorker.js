@@ -8,6 +8,8 @@
 // To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
 // This link also includes instructions on opting out of this behavior.
 
+/* eslint-disable */
+
 const isLocalhost = Boolean(window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
     window.location.hostname === '[::1]' ||
@@ -38,7 +40,6 @@ export default function register() {
         });
     }
 }
-/* eslint-disable */
 function registerValidSW(swUrl) {
     navigator.serviceWorker
         .register(swUrl)
@@ -67,7 +68,6 @@ function registerValidSW(swUrl) {
             console.error('Error during service worker registration:', error);
         });
 }
-/* eslint-enable */
 function checkValidServiceWorker(swUrl) {
     // Check if the service worker can be found. If it can't reload the page.
     fetch(swUrl)
@@ -97,8 +97,9 @@ function checkValidServiceWorker(swUrl) {
 
 export function unregister() {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready.then((registration) => {
+        navigator.serviceWorker.ready.then((registration) => { // eslint-disable-line
             registration.unregister();
         });
     }
 }
+/* eslint-enable */

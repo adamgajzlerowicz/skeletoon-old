@@ -24,7 +24,6 @@ const doPost = (url: string, data: {}): Promise<*> => axios.post(url, data);
 function* getSaga(action: ActionType): Generator<*, *, *> {
     try {
         const result = yield call(doGet, action.payload);
-        console.log(result);
         if (action.callback) {
             yield put(action.callback(result));
         }
@@ -36,8 +35,7 @@ function* getSaga(action: ActionType): Generator<*, *, *> {
 
 function* postSaga(action: ActionType): Generator<*, *, *> {
     try {
-        const result = yield call(doPost, action.payload);
-        console.log(result);
+        yield call(doPost, action.payload);
         // yield put({ type: 'USER_FETCH_SUCCEEDED', payload: {} });
     } catch (e) {
         // yield put({ type: 'USER_FETCH_FAILED', message: e.message });

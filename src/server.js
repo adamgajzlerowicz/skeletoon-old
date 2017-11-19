@@ -31,25 +31,6 @@ const user = {
 
 const DBpassword: string = '$2a$10$kNm1ChJZ8.4WJTopz8BJQO1pTyEqgTwcPWTquEUjqQTe4Ff//Iktq';
 
-
-type RequestType ={
-    body: {
-        username: string,
-        password: string
-    }
-};
-
-type ResponseType = {
-    type: number=> {
-        json: {
-            error: string
-        }
-    }
-};
-
-/**
- *          Router
- */
 app.post('/auth/login', (req: $Request, res: $Response): $Response => {
     const { body: { username, password } } = req;
 
@@ -71,7 +52,7 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
         });
     }
 
-    bcrypt.compare(password, DBpassword).then((valid: boolean): ResponseType => {
+    bcrypt.compare(password, DBpassword).then((valid: boolean): $Response => {
         if (!valid) {
             return res.status(403).json({
                 error: 'Wrong credentials',
