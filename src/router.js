@@ -2,33 +2,32 @@
 
 import React from 'react';
 import {
-    BrowserRouter as Router,
     Route,
     Link,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+import { ConnectedRouter as Router } from 'react-router-redux';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import type { Element } from 'react';
 
-import store from './state/store';
+import store, { history } from './state/store';
 import Login from './components/auth/login';
 
-
-const Navigation = (): Element<*> =>
-    (
-        <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/login">Login</Link></li>
-        </ul>
-    );
+const Navigation = (): Element<*> => (
+    <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/login">Login</Link></li>
+    </ul>
+);
 
 const App = (): Element<*> => (
     <MuiThemeProvider>
         <Provider store={store}>
-            <Router>
+            <Router history={history}>
                 <div>
                     <Navigation />
                     <hr />

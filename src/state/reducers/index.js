@@ -7,7 +7,7 @@ import type { ActionType } from '../type';
 
 // const foo = <T: {}>(state: T = {}, action: ActionType): T => state;
 
-const foo = (state: {} = {}, action: ActionType): {} => state;
+const foo = (state: {}, action: ActionType): {} => state;
 
 const rootReducer = combineReducers({
     foo,
