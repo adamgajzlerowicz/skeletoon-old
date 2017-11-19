@@ -3,9 +3,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import Button from 'material-ui/Button';
-import { TextField } from 'redux-form-material-ui';
 import axios from 'axios';
+
+import Button from 'material-ui/RaisedButton';
+import { TextField } from 'redux-form-material-ui';
+
 import type { Dispatch } from 'redux';
 import type { Element } from 'react';
 
@@ -51,7 +53,7 @@ type PromiseType = Promise<*>;
 type OnSubmitType = FormType => PromiseType;
 
 type FormPropsType = {
-    handleSubmit: (()=>void)=>void,
+    handleSubmit: (OnSubmitType)=>void,
     error: boolean | void,
     submitSucceeded: boolean,
     valid: boolean,
@@ -77,7 +79,7 @@ const LoginForm = ({
             <Field name="password" type="password" label="password" style={{ width: '100%' }} component={TextField} />
 
             <div style={{ width: '100%', float: 'right' }}>
-                <Button raised dense type="submit" color="primary" disabled={!valid && !submitting} style={{ float: 'right', marginTop: 15 }}>
+                <Button type="submit" color="primary" disabled={!valid && !submitting} style={{ float: 'right', marginTop: 15 }}>
                     Submit
                 </Button>
             </div>

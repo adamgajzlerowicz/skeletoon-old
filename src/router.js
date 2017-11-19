@@ -8,6 +8,8 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import type { Element } from 'react';
 
 import store from './state/store';
@@ -24,18 +26,20 @@ const Navigation = (): Element<*> =>
     );
 
 const App = (): Element<*> => (
-    <Provider store={store}>
-        <Router>
-            <div>
-                <Navigation />
-                <hr />
+    <MuiThemeProvider>
+        <Provider store={store}>
+            <Router>
+                <div>
+                    <Navigation />
+                    <hr />
 
-                <Route exact path="/" component={Home} />
-                <Route path="/about" component={About} />
-                <Route path="/login" component={Login} />
-            </div>
-        </Router>
-    </Provider>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/about" component={About} />
+                    <Route path="/login" component={Login} />
+                </div>
+            </Router>
+        </Provider>
+    </MuiThemeProvider>
 );
 
 const Home = (): Element<*> => (

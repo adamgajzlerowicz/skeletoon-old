@@ -5,10 +5,13 @@ import { combineReducers } from 'redux';
 
 type ActionType = {
     type: string,
-    payload?: {}
+    payload?: {} | string
 };
 
-const foo = <T>(state: T = {}, action: ActionType): T => state;
+
+// const foo = <T: {}>(state: T = {}, action: ActionType): T => state;
+
+const foo = (state: {} = {}, action: ActionType): {} => state;
 
 const rootReducer = combineReducers({
     foo,

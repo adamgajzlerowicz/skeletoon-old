@@ -34,7 +34,7 @@ module.exports = {
     // This means they will be the "root" imports that are included in JS bundle.
     // The first two entry points enable "hot" CSS and auto-refreshes for JS.
     entry: [
-    // We ship a few polyfills by default:
+        // We ship a few polyfills by default:
         require.resolve('./polyfills'),
         // Include an alternative client for WebpackDevServer. A client's job is to
         // connect to WebpackDevServer by a socket and get notified about changes.
@@ -49,12 +49,12 @@ module.exports = {
         require.resolve('react-dev-utils/webpackHotDevClient'),
         // Finally, this is your app's code:
         paths.appIndexJs,
-    // We include the app code last so that if there is a runtime error during
-    // initialization, it doesn't blow up the WebpackDevServer client, and
-    // changing JS code would still trigger a refresh.
+        // We include the app code last so that if there is a runtime error during
+        // initialization, it doesn't blow up the WebpackDevServer client, and
+        // changing JS code would still trigger a refresh.
     ],
     output: {
-    // Add /* filename */ comments to generated require()s in the output.
+        // Add /* filename */ comments to generated require()s in the output.
         pathinfo: true,
         // This does not produce a real file. It's just the virtual path that is
         // served by WebpackDevServer in development. This is the JS bundle
@@ -69,10 +69,10 @@ module.exports = {
             path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
     },
     resolve: {
-    // This allows you to set a fallback for where Webpack should look for modules.
-    // We placed these paths second because we want `node_modules` to "win"
-    // if there are any conflicts. This matches Node resolution mechanism.
-    // https://github.com/facebookincubator/create-react-app/issues/253
+        // This allows you to set a fallback for where Webpack should look for modules.
+        // We placed these paths second because we want `node_modules` to "win"
+        // if there are any conflicts. This matches Node resolution mechanism.
+        // https://github.com/facebookincubator/create-react-app/issues/253
         modules: ['node_modules', paths.appNodeModules].concat(
             // It is guaranteed to exist because we tweak it in `env.js`
             process.env.NODE_PATH.split(path.delimiter).filter(Boolean)),
@@ -96,7 +96,6 @@ module.exports = {
             // please link the files into your node_modules/ and let module-resolution kick in.
             // Make sure your source files are compiled, as they will not be processed in any way.
             new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
-            new FlowWebpackPlugin(),
         ],
     },
     module: {
@@ -212,10 +211,10 @@ module.exports = {
         ],
     },
     plugins: [
-    // Makes some environment variables available in index.html.
-    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    // In development, this will be an empty string.
+        // Makes some environment variables available in index.html.
+        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+        // In development, this will be an empty string.
         new InterpolateHtmlPlugin(env.raw),
         // Generates an `index.html` file with the <script> injected.
         new HtmlWebpackPlugin({
@@ -244,6 +243,8 @@ module.exports = {
         // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
         // You can remove this if you don't use Moment.js:
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new FlowWebpackPlugin(),
+
     ],
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
@@ -261,3 +262,4 @@ module.exports = {
         hints: false,
     },
 };
+
