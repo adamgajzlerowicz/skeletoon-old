@@ -70,11 +70,13 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "yarn concurrently 'yarn dev' 'yarn serve'",
+    "start": "node scripts/start.js", 
+    "start-app": "yarn concurrently 'babel-node src/server.js' 'node scripts/start.js'",
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "serve": "NODE_ENV=development nodemon --exec babel-node src/server.js",
+    "serve:seed": "NODE_ENV=development SEED=true nodemon --exec babel-node src/server.js",
     "lint": "eslint src --ext .js",
     "flow-typed": "flow-typed"
   },

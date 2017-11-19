@@ -30,10 +30,8 @@ type SuccessResponseType = {
 };
 
 type ErrorResponseType = {
-    response: {
-        data: {
-            error: string
-        }
+    response?: {
+        data: { error: string } | void | string
     }
 };
 
@@ -97,13 +95,14 @@ const submit = (data: FormType): PromiseType =>
         axios.post('/auth/login', data)
             .then((resp: SuccessResponseType) => {
                 const { data: { token, user } } = resp;
+
                 sessionStorage.setItem('token', token);
                 sessionStorage.setItem('user', JSON.stringify(user));
                 res();
             })
             .catch((e: ErrorResponseType) => {
                 rej(new SubmissionError({
-                    _error: e.response.data.error,
+                    _error: (e.response && e.response.data && e.response.data.error) ? e.response.data.error : 'Server error',
                 }));
             });
     });
