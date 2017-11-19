@@ -1,8 +1,13 @@
+// @flow
+
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 
+import type { $Request, $Response } from 'express';
+
+// $FlowFixMe
 import { hash } from '../.env.json';
 
 
@@ -10,9 +15,11 @@ const port = process.env.PORT || 8080;
 const path = require('path');
 
 const app = express();
+
 app.use(bodyParser.urlencoded({
     extended: true,
 }));
+
 app.use(bodyParser.json());
 
 // console.log(bcrypt.hashSync('dupa', 10));
@@ -22,12 +29,28 @@ const user = {
     email: 'dupa@poo.com',
 };
 
-const DBpassword = '$2a$10$kNm1ChJZ8.4WJTopz8BJQO1pTyEqgTwcPWTquEUjqQTe4Ff//Iktq';
+const DBpassword: string = '$2a$10$kNm1ChJZ8.4WJTopz8BJQO1pTyEqgTwcPWTquEUjqQTe4Ff//Iktq';
+
+
+type RequestType ={
+    body: {
+        username: string,
+        password: string
+    }
+};
+
+type ResponseType = {
+    type: number=> {
+        json: {
+            error: string
+        }
+    }
+};
 
 /**
  *          Router
  */
-app.post('/auth/login', (req, res) => {
+app.post('/auth/login', (req: $Request, res: $Response): $Response => {
     const { body: { username, password } } = req;
 
     if (!username) {
@@ -48,7 +71,7 @@ app.post('/auth/login', (req, res) => {
         });
     }
 
-    bcrypt.compare(password, DBpassword).then((valid) => {
+    bcrypt.compare(password, DBpassword).then((valid: boolean): ResponseType => {
         if (!valid) {
             return res.status(403).json({
                 error: 'Wrong credentials',
@@ -58,15 +81,15 @@ app.post('/auth/login', (req, res) => {
         const token = jwt.sign(user, hash, {
             expiresIn: 60 * 60 * 24, // expires in 24 hours
         });
-
-        return res.json({ user, token });
+        return res.status(200).json({ user, token });
     });
-    return true;
+
+    return res.status(404);
 });
 
 app.use('/static', express.static(path.join(__dirname, '../build/static')));
 
-app.all('*', (req, res) => {
+app.all('*', (req: $Request, res: $Response) => {
     res.sendFile(path.join(`${__dirname}/../build/index.html`));
 });
 
