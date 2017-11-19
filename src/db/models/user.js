@@ -3,11 +3,6 @@ import bcrypt from 'bcrypt';
 
 import sequelize from '../index';
 
-// type UserType = {
-//    firstName: string,
-//    lastName: string
-// };
-
 const User = sequelize.define('user', {
     firstName: {
         type: Sequelize.STRING,
@@ -26,6 +21,7 @@ const User = sequelize.define('user', {
     },
 });
 if (process.env.SEED) {
+    /* eslint-disable */
     User.sync({ force: true }).then(() => {
         bcrypt.hash('dupa', 10, (err, hash) => {
             User.create({
@@ -37,7 +33,7 @@ if (process.env.SEED) {
             });
         });
 
-        bcrypt.hash('dupa', 10, (err, hash) => {
+        bcrypt.hash('dupa', 10, (err, hash) => { 
             User.create({
                 firstName: 'John',
                 lastName: 'Hancock',
@@ -46,6 +42,7 @@ if (process.env.SEED) {
             });
         });
     });
+       /* eslint-enable */
 }
 
 

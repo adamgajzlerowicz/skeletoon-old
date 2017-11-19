@@ -4,6 +4,7 @@
         "react-app"
     ],
     "rules": {
+        "consistent-return": 0,
         "no-debugger": 0,
         "import/prefer-default-export": 0,
         "flowtype/boolean-style": [

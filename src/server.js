@@ -23,17 +23,8 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-// console.log();
-
-
-// const DBpassword: string = '$2a$10$kNm1ChJZ8.4WJTopz8BJQO1pTyEqgTwcPWTquEUjqQTe4Ff//Iktq';
-
 
 app.post('/auth/login', (req: $Request, res: $Response): $Response => {
-    // User.findAll().then((users: Array<{}>) => {
-    //     console.log(users);
-    // });
-
     const { body: { username, password } } = req;
 
     if (!username) {
@@ -49,7 +40,8 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
     }
 
     User.findOne({ where: { username } })
-        .then((user) => {
+        .then((user): $Response => {
+            console.log(user);
             if (!user) {
                 return res.status(403).json({
                     error: 'Wrong credentials',
@@ -66,7 +58,6 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
                 const token = jwt.sign(user.dataValues, hash, {
                     expiresIn: 60 * 60 * 24, // expires in 24 hours
                 });
-                console.log('token generated', token);
                 return res.status(200).json({ user: { name: user.dataValues.username, email: user.dataValues.email }, token });
             });
 
