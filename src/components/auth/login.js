@@ -8,6 +8,7 @@ import axios from 'axios';
 import Button from 'material-ui/RaisedButton';
 import { TextField } from 'redux-form-material-ui';
 
+
 import type { Dispatch } from 'redux';
 import type { Element } from 'react';
 
@@ -108,7 +109,7 @@ const submit = (data: FormType): PromiseType =>
     });
 
 
-const mapDispatch = (dispatch: Dispatch<*>): { } => ({
+const mapDispatch = (dispatch: Dispatch<*>): {onSubmit: OnSubmitType} => ({
     onSubmit: submit,
 });
 

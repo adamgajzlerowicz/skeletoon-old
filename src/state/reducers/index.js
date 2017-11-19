@@ -3,11 +3,7 @@
 import { reducer as formReducer } from 'redux-form';
 import { combineReducers } from 'redux';
 
-type ActionType = {
-    type: string,
-    payload?: {} | string
-};
-
+import type { ActionType } from '../type';
 
 // const foo = <T: {}>(state: T = {}, action: ActionType): T => state;
 
