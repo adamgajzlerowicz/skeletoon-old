@@ -54,7 +54,7 @@ type OnSubmitType = FormType => PromiseType;
 
 type FormPropsType = {
     handleSubmit: (OnSubmitType)=>void,
-    error: boolean | void,
+    error: string | void,
     submitSucceeded: boolean,
     valid: boolean,
     submitting: boolean,
