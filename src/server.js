@@ -15,6 +15,26 @@ const port = process.env.PORT || 8080;
 const path = require('path');
 
 
+type UserType = {
+    id: number,
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string,
+    createdAt: Date,
+    updatedAt: Date
+};
+
+type SequelProResultType = null | {
+    dataValues: UserType,
+    _previousDataValues: UserType,
+    _changed: {},
+    _modelOptions: {},
+    _options: {},
+    isNewRecord: boolean
+};
+
 const app = express();
 
 app.use(bodyParser.urlencoded({
@@ -39,27 +59,10 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
         });
     }
 
-    type UserType = {
-        id: number,
-        firstName: string,
-        lastName: string,
-        username: string,
-        email: string,
-        password: string,
-        createdAt: Date,
-        updatedAt: Date
-    };
 
-    type SequelProResultType = null | {
-        dataValues: UserType,
-        _previousDataValues: UserType,
-         _changed: {},
-        _modelOptions: {},
-        _options: {},
-        isNewRecord: boolean
-    };
+    const findUser = User.findOne({ where: { username } });
 
-    User.findOne({ where: { username } })
+    findUser
         .then((user: SequelProResultType): $Response => {
             if (user && user.dataValues) {
                 bcrypt.compare(
