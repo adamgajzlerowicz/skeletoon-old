@@ -50,7 +50,7 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
         updatedAt: Date
     };
 
-    type SequelProResultType = {
+    type SequelProResultType = null | {
         dataValues: UserType,
         _previousDataValues: UserType,
          _changed: {},
@@ -61,37 +61,37 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
 
     User.findOne({ where: { username } })
         .then((user: SequelProResultType): $Response => {
-            if (!user) {
+            if (user && user.dataValues) {
+                bcrypt.compare(
+                    password, user.dataValues.password,
+                    (err?: Error, valid: ?boolean): $Response => {
+                        if (err || !valid) {
+                            return res.status(403).json({
+                                error: 'Wrong credentials',
+                            });
+                        }
+
+                        const token = jwt.sign(user.dataValues, hash, {
+                            expiresIn: 60 * 60 * 24, // expires in 24 hours
+                        });
+                        return res.status(200)
+                            .json({
+                                user:
+                                    {
+                                        name: user.dataValues.username,
+                                        email: user.dataValues.email,
+                                    },
+                                token,
+                            });
+                    },
+                );
+            } else if (!user) {
                 return res.status(403).json({
                     error: 'Wrong credentials',
                 });
+            } else {
+                return res.status(404);
             }
-
-            bcrypt.compare(
-                password, user.dataValues.password,
-                (err?: Error, valid: ?boolean): $Response => {
-                    if (err || !valid) {
-                        return res.status(403).json({
-                            error: 'Wrong credentials',
-                        });
-                    }
-
-                    const token = jwt.sign(user.dataValues, hash, {
-                        expiresIn: 60 * 60 * 24, // expires in 24 hours
-                    });
-                    return res.status(200)
-                        .json({
-                            user:
-                                {
-                                    name: user.dataValues.username,
-                                    email: user.dataValues.email,
-                                },
-                            token,
-                        });
-                },
-            );
-
-            return res.status(404);
         });
 });
 
