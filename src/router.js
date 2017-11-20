@@ -15,12 +15,14 @@ import type { Element } from 'react';
 
 import store, { history } from './state/store';
 import Login from './components/auth/login';
+import Register from './components/auth/register';
 
 const Navigation = (): Element<*> => (
     <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
-        <li><Link to="/login">Login</Link></li>
+        <li><Link to="/auth/login">Login</Link></li>
+        <li><Link to="/auth/register">Register</Link></li>
     </ul>
 );
 
@@ -31,10 +33,10 @@ const App = (): Element<*> => (
                 <div>
                     <Navigation />
                     <hr />
-
                     <Route exact path="/" component={Home} />
                     <Route path="/about" component={About} />
-                    <Route path="/login" component={Login} />
+                    <Route path="/auth/login" component={Login} />
+                    <Route path="/auth/register" component={Register} />
                 </div>
             </Router>
         </Provider>

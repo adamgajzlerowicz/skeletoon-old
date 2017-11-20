@@ -4,12 +4,6 @@ import bcrypt from 'bcrypt';
 import sequelize from '../index';
 
 const User = sequelize.define('user', {
-    firstName: {
-        type: Sequelize.STRING,
-    },
-    lastName: {
-        type: Sequelize.STRING,
-    },
     username: {
         type: Sequelize.STRING,
     },
@@ -25,8 +19,6 @@ if (process.env.SEED) {
     User.sync({ force: true }).then(() => {
         bcrypt.hash('dupa', 10, (err, hash) => {
             User.create({
-                firstName: 'Adam',
-                lastName: 'Gajzlerowicz',
                 username: 'nelf',
                 password: hash,
                 email: 'nelf86@gmail.com',
@@ -35,8 +27,6 @@ if (process.env.SEED) {
 
         bcrypt.hash('dupa', 10, (err, hash) => { 
             User.create({
-                firstName: 'John',
-                lastName: 'Hancock',
                 username: 'jh',
                 password: hash,
             });

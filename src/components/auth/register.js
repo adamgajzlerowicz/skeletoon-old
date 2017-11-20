@@ -42,6 +42,7 @@ const validate = (data: FormType): FormType => {
     if (!data.password) {
         errors.password = 'Please provide password';
     }
+
     if (!data.username) {
         errors.username = 'Please provide login';
     }
@@ -74,13 +75,13 @@ const LoginForm = ({
         width: 300, padding: 30, margin: '0 auto', textAlign: 'center',
     }}
     >
-        <h2>Login</h2>
+        <h2>Register</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
             <Field name="username" placeholder="login" style={{ width: '100%' }} component={TextField} />
-            <Field name="password" type="password" placeholder="password" label="password" style={{ width: '100%' }} component={TextField} />
-
+            <Field name="email" placeholder="email" style={{ marginTop: 15, width: '100%' }} component={TextField} />
+            <Field name="password" type="password" placeholder="password" style={{ marginTop: 15, width: '100%' }} component={TextField} />
             <div style={{ width: '100%', display: 'flex' }}>
-                <Link to="/auth/register" style={{ flex: 1, fontSize: 10, textAlign: 'center', lineHeight: '36px' }}>dont have an account</Link>
+                <Link to="/auth/login" style={{ flex: 1, fontSize: 10, textAlign: 'center', lineHeight: '36px' }}>already have an account</Link>
                 <Button type="submit" color="primary" disabled={!valid && !submitting} style={{ flex: 1 }}>
                     Submit
                 </Button>
