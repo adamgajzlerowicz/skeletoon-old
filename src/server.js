@@ -69,7 +69,7 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
 
             bcrypt.compare(
                 password, user.dataValues.password,
-                (err?: string, valid: ?boolean): $Response => {
+                (err?: Error, valid: ?boolean): $Response => {
                     if (err || !valid) {
                         return res.status(403).json({
                             error: 'Wrong credentials',
@@ -80,9 +80,13 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
                         expiresIn: 60 * 60 * 24, // expires in 24 hours
                     });
                     return res.status(200)
-                        .json({ user: { name: user.dataValues.username,
-                            email: user.dataValues.email },
-                        token,
+                        .json({
+                            user:
+                                {
+                                    name: user.dataValues.username,
+                                    email: user.dataValues.email,
+                                },
+                            token,
                         });
                 },
             );
