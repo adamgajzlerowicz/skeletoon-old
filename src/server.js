@@ -26,7 +26,7 @@ type UserType = {
     updatedAt: Date
 };
 
-type SequelProResultType = null | {
+type SequelProResultType = {
     dataValues: UserType,
     _previousDataValues: UserType,
     _changed: {},
@@ -63,10 +63,12 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
     const findUser = User.findOne({ where: { username } });
 
     findUser
-        .then((user: SequelProResultType): $Response => {
-            if (user && user.dataValues) {
+        .then((user: ?SequelProResultType): $Response => {
+            const userData = user ? user.dataValues : null;
+
+            if (userData) {
                 bcrypt.compare(
-                    password, user.dataValues.password,
+                    password, userData.password,
                     (err?: Error, valid: ?boolean): $Response => {
                         if (err || !valid) {
                             return res.status(403).json({
@@ -74,15 +76,15 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
                             });
                         }
 
-                        const token = jwt.sign(user.dataValues, hash, {
+                        const token = jwt.sign(userData, hash, {
                             expiresIn: 60 * 60 * 24, // expires in 24 hours
                         });
                         return res.status(200)
                             .json({
                                 user:
                                     {
-                                        name: user.dataValues.username,
-                                        email: user.dataValues.email,
+                                        name: userData.username,
+                                        email: userData.email,
                                     },
                                 token,
                             });
