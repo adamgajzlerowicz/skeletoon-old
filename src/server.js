@@ -41,6 +41,39 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
+async function foo(username: string, password: string, res: $Response): $Response {
+    const user: ?SequelProResultType = await User.findOne({ where: { username } });
+    const userData = user ? user.dataValues : null;
+    if (userData) {
+        bcrypt.compare(password, userData.password, (err?: Error, valid: ?boolean): $Response => {
+            if (err || !valid) {
+                return res.status(403).json({
+                    error: 'Wrong credentials',
+                });
+            }
+
+            const token = jwt.sign(userData, hash, {
+                expiresIn: 60 * 60 * 24, // expires in 24 hours
+            });
+            return res.status(200)
+                .json({
+                    user:
+                        {
+                            name: userData.username,
+                            email: userData.email,
+                        },
+                    token,
+                });
+        });
+    } else if (!user) {
+        return res.status(403).json({
+            error: 'Wrong credentials',
+        });
+    } else {
+        return res.status(404);
+    }
+}
+
 
 app.post('/auth/login', (req: $Request, res: $Response): $Response => {
     const { body: { username, password } } = req;
@@ -57,45 +90,7 @@ app.post('/auth/login', (req: $Request, res: $Response): $Response => {
         });
     }
 
-
-    const findUser = User.findOne({ where: { username } });
-
-    findUser
-        .then((user: ?SequelProResultType): $Response => {
-            const userData = user ? user.dataValues : null;
-
-            if (userData) {
-                bcrypt.compare(
-                    password, userData.password,
-                    (err?: Error, valid: ?boolean): $Response => {
-                        if (err || !valid) {
-                            return res.status(403).json({
-                                error: 'Wrong credentials',
-                            });
-                        }
-
-                        const token = jwt.sign(userData, hash, {
-                            expiresIn: 60 * 60 * 24, // expires in 24 hours
-                        });
-                        return res.status(200)
-                            .json({
-                                user:
-                                    {
-                                        name: userData.username,
-                                        email: userData.email,
-                                    },
-                                token,
-                            });
-                    },
-                );
-            } else if (!user) {
-                return res.status(403).json({
-                    error: 'Wrong credentials',
-                });
-            } else {
-                return res.status(404);
-            }
-        });
+    return foo(username, password, res);
 });
 
 app.use('/static', express.static(path.join(__dirname, '../build/static')));
