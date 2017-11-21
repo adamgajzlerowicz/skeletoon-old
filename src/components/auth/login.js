@@ -2,41 +2,24 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
-import axios from 'axios';
+// import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
+// import axios from 'axios';
 import {
     Link,
 } from 'react-router-dom';
 import Button from 'material-ui/RaisedButton';
 import { TextField } from 'redux-form-material-ui';
 
-
-import type { Dispatch } from 'redux';
+// import type { Dispatch } from 'redux';
 import type { Element } from 'react';
+
+import { loginAction } from '../../state/ducks/auth';
 
 type FormType = {
     username?: string,
     password?: string
 };
-
-type UserType = {
-    name: string,
-    email: string
-};
-
-type SuccessResponseType = {
-    data: {
-        token: string,
-        user: UserType
-    }
-};
-
-type ErrorResponseType = {
-    response?: {
-        data: { error: string } | void | string
-    }
-};
-
 const validate = (data: FormType): FormType => {
     const errors = {};
     if (!data.password) {
@@ -93,26 +76,8 @@ const LoginForm = ({
 
 const FormedLogin = reduxForm({ form: 'login', validate })(LoginForm);
 
-const submit = (data: FormType): PromiseType =>
-    new Promise((res: () => void, rej: (SubmissionError) => void) => {
-        axios.post('/auth/login', data)
-            .then((resp: SuccessResponseType) => {
-                const { data: { token, user } } = resp;
-
-                sessionStorage.setItem('token', token);
-                sessionStorage.setItem('user', JSON.stringify(user));
-                res();
-            })
-            .catch((e: ErrorResponseType) => {
-                rej(new SubmissionError({
-                    _error: (e.response && e.response.data && e.response.data.error) ? e.response.data.error : 'Server error',
-                }));
-            });
-    });
-
-
 const mapDispatch = (dispatch: Dispatch<*>): {onSubmit: OnSubmitType} => ({
-    onSubmit: submit,
+    onSubmit: loginAction,
 });
 
 const ConnectedLogin = connect(null, mapDispatch)(FormedLogin);
