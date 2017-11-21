@@ -58,6 +58,7 @@
     "redux-devtools": "^3.4.0",
     "redux-form": "^7.1.2",
     "redux-form-material-ui": "^4.3.1",
+    "redux-form-saga": "^0.1.2",
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.22.8",
@@ -70,7 +71,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js", 
+    "start": "node scripts/start.js",
     "start-app": "yarn concurrently 'babel-node src/server.js' 'node scripts/start.js'",
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
