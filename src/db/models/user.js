@@ -14,6 +14,7 @@ const User = sequelize.define('user', {
         type: Sequelize.STRING,
     },
 });
+
 if (process.env.SEED) {
     /* eslint-disable */
     User.sync({ force: true }).then(() => {
@@ -32,7 +33,7 @@ if (process.env.SEED) {
             });
         });
     });
-       /* eslint-enable */
+    /* eslint-enable */
 }
 
 

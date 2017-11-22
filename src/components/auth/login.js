@@ -2,24 +2,19 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-// import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { reduxForm, Field } from 'redux-form';
-// import axios from 'axios';
 import {
     Link,
 } from 'react-router-dom';
 import Button from 'material-ui/RaisedButton';
 import { TextField } from 'redux-form-material-ui';
 
-// import type { Dispatch } from 'redux';
 import type { Element } from 'react';
 
 import { loginAction } from '../../state/ducks/auth';
 
-type FormType = {
-    username?: string,
-    password?: string
-};
+import type { FormType } from './type';
+
 const validate = (data: FormType): FormType => {
     const errors = {};
     if (!data.password) {
@@ -64,7 +59,7 @@ const LoginForm = ({
 
             <div style={{ width: '100%', display: 'flex' }}>
                 <Link to="/auth/register" style={{ flex: 1, fontSize: 10, textAlign: 'center', lineHeight: '36px' }}>dont have an account</Link>
-                <Button type="submit" color="primary" disabled={!valid && !submitting} style={{ flex: 1 }}>
+                <Button type="submit" primary={valid} disabled={!valid && !submitting} style={{ flex: 1 }}>
                     Submit
                 </Button>
             </div>
