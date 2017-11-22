@@ -16,12 +16,18 @@ type LoginFormType = {
     password?: string
 };
 
+type RegisterFormType = {
+    username?: string,
+    password?: string,
+    email?: string
+};
+
 type UserType = {
     name: string,
     email: string
 };
 
-type SuccessLoginResponseType = {
+type SuccessResponseType = {
     data: {
         token: string,
         user: UserType
@@ -50,7 +56,7 @@ function* handleLoginSaga(action: {payload: LoginFormType}): Generator<*, *, *> 
     const { username, password } = action.payload;
 
     try {
-        const result: SuccessLoginResponseType = yield call(axios.post, '/rest/auth/login', { username, password });
+        const result: SuccessResponseType = yield call(axios.post, '/rest/auth/login', { username, password });
         const { data: { token, user } } = result;
         yield call(setStorageDetails, { token, user });
         yield put(loginAction.success());
@@ -63,20 +69,20 @@ function* handleLoginSaga(action: {payload: LoginFormType}): Generator<*, *, *> 
     }
 }
 
-function* handleRegisterSaga(action: {payload: LoginFormType}): Generator<*, *, *> {
-    const { username, password } = action.payload;
+function* handleRegisterSaga(action: {payload: RegisterFormType}): Generator<*, *, *> {
+    const { username, password, email } = action.payload;
 
     try {
-        const result: SuccessLoginResponseType = yield call(axios.post, '/rest/auth/login', { username, password });
+        const result: SuccessResponseType = yield call(axios.post, '/rest/auth/register', { email, username, password });
         const { data: { token, user } } = result;
         yield call(setStorageDetails, { token, user });
-        yield put(loginAction.success());
+        yield put(registerAction.success());
     } catch (e) {
         const formError = new SubmissionError({
             _error: (e.response && e.response.data && e.response.data.error) ? e.response.data.error : 'Server error',
         });
 
-        yield put(loginAction.failure(formError));
+        yield put(registerAction.failure(formError));
     }
 }
 
@@ -91,6 +97,6 @@ function* loginSaga(): Generator<*, *, *> {
 }
 
 export {
-    loginAction, loginSaga,
+    registerAction, loginSaga, logoutAction, loginAction,
 };
 
