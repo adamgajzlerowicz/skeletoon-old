@@ -34,7 +34,7 @@ function* handleLoginSaga(action: {payload: FormType}): Generator<*, *, *> {
     const { username, password } = action.payload;
 
     try {
-        const result: SuccessResponseType = yield call(axios.post, '/auth/login', { username, password });
+        const result: SuccessResponseType = yield call(axios.post, '/rest/auth/login', { username, password });
         const { data: { token, user } } = result;
 
         sessionStorage.setItem('token', token);

@@ -75,7 +75,7 @@ async function foo(username: string, password: string, res: $Response): $Respons
 }
 
 
-app.post('/auth/login', (req: $Request, res: $Response): $Response => {
+app.post('/rest/auth/login', (req: $Request, res: $Response): $Response => {
     const { body: { username, password } } = req;
 
     if (!username) {
