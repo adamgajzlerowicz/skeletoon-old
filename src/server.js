@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-async function foo(username: string, password: string, res: $Response): $Response {
+async function checkUser(username: string, password: string, res: $Response): $Response {
     const user: ?SequelProResultType = await User.findOne({ where: { username } });
     const userData = user ? user.dataValues : null;
     if (userData) {
@@ -90,7 +90,31 @@ app.post('/rest/auth/login', (req: $Request, res: $Response): $Response => {
         });
     }
 
-    return foo(username, password, res);
+    return checkUser(username, password, res);
+});
+
+
+app.post('/rest/auth/register', (req: $Request, res: $Response): $Response => {
+    const { body: { username, password, email } } = req;
+
+    if (!username) {
+        return res.status(403).json({
+            error: 'Username is missing',
+        });
+    }
+
+    if (!password) {
+        return res.status(403).json({
+            error: 'Password is missing',
+        });
+    }
+
+    if (!email) {
+        return res.status(403).json({
+            error: 'Email is missing',
+        });
+    }
+    return checkUser(username, password, res);
 });
 
 app.use('/static', express.static(path.join(__dirname, '../build/static')));

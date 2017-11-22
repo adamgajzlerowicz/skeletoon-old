@@ -4,7 +4,7 @@ import { createFormAction } from 'redux-form-saga';
 
 
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { SubmissionError } from 'redux-form';
+import { SubmissionError, reset } from 'redux-form';
 import axios from 'axios';
 
 const LOGIN: string = 'LOGIN';
@@ -60,6 +60,7 @@ function* handleLoginSaga(action: {payload: LoginFormType}): Generator<*, *, *> 
         const { data: { token, user } } = result;
         yield call(setStorageDetails, { token, user });
         yield put(loginAction.success());
+        yield put(reset('login'));
     } catch (e) {
         const formError = new SubmissionError({
             _error: (e.response && e.response.data && e.response.data.error) ? e.response.data.error : 'Server error',
@@ -77,6 +78,7 @@ function* handleRegisterSaga(action: {payload: RegisterFormType}): Generator<*, 
         const { data: { token, user } } = result;
         yield call(setStorageDetails, { token, user });
         yield put(registerAction.success());
+        yield put(reset('register'));
     } catch (e) {
         const formError = new SubmissionError({
             _error: (e.response && e.response.data && e.response.data.error) ? e.response.data.error : 'Server error',
