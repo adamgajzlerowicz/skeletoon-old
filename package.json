@@ -138,8 +138,12 @@
       "react-app",
       "es2015"
     ],
-    "plugins": [
-      "flow-runtime"
-    ]
+    "env": {
+      "development": {
+        "plugins": [
+          "flow-runtime"
+        ]
+      }
+    }
   }
 }
