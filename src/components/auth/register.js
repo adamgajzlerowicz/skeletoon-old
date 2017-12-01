@@ -73,7 +73,7 @@ const RegisterForm = ({
     </div>
 );
 
-const FormedRegister = reduxForm({ form: 'register', validate })(RegisterForm);
+const FormedRegister = reduxForm({ form: 'register', validate, formValues: { username: 'lkjsdf' } })(RegisterForm);
 
 const mapDispatch = (dispatch: Dispatch<*>): { onSubmit: OnSubmitType } => ({
     onSubmit: registerAction,

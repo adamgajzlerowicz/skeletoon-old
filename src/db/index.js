@@ -2,8 +2,6 @@
 
 import Sequelize from 'sequelize';
 
-import type { RuntimeTypeError } from 'sequelize';
-
 require('dotenv').config({ path: '.env.server.local' });
 
 const DB = process.env.SQL_DB || '';
@@ -24,7 +22,7 @@ const connection = new Sequelize(DB, SQL_LOGIN, SQL_PASSWORD, {
 });
 
 connection.authenticate()
-    .catch((err: RuntimeTypeError) => {
+    .catch((err: {}) => {
         // eslint-disable-next-line
         console.error('Unable to connect to the database:', err);
     });

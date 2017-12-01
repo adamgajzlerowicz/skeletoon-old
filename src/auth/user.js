@@ -22,18 +22,10 @@ type SequelProResultType = {
     isNewRecord: boolean
 };
 
-type ResponseType = {
-    user: {
-        name: string,
-        email: string
-    },
-    token: string
-};
-
-
-async function login(username: string, password: string): ResponseType {
+async function login(username: string, password: string): Promise<*> {
     const user: ?SequelProResultType = await User.findOne({ where: { username } });
     const userData = user ? user.dataValues : null;
+
     if (userData) {
         const valid = bcrypt.compareSync(password, userData.password);
 
@@ -46,11 +38,10 @@ async function login(username: string, password: string): ResponseType {
         });
 
         return {
-            user:
-                {
-                    name: userData.username,
-                    email: userData.email,
-                },
+            user: {
+                name: userData.username,
+                email: userData.email,
+            },
             token,
         };
     } else if (!user) {
@@ -60,40 +51,31 @@ async function login(username: string, password: string): ResponseType {
     }
 }
 
-// async function register(username: string, password: string, ): $Response {
-//     const user: ?SequelProResultType = await User.findOne({ where: { username } });
-//     const userData = user ? user.dataValues : null;
-//     if (userData) {
-//         bcrypt.compare(password, userData.password, (err?: Error, valid: ?boolean): $Response => {
-//             if (err || !valid) {
-//                 return res.status(403).json({
-//                     error: 'Wrong credentials',
-//                 });
-//             }
+async function register(username: string, password: string, email: string): Promise<*> {
+    const usernameTest: ?SequelProResultType = await User.findOne({ where: { username } });
+    const usernameTestData = usernameTest ? usernameTest.dataValues : null;
+    if (usernameTestData) {
+        throw 'This username is already taken';
+    }
 
-//             const token = jwt.sign(userData, process.env.HASH, {
-//                 expiresIn: 60 * 60 * 24, // expires in 24 hours
-//             });
-//             return res.status(200)
-//                 .json({
-//                     user:
-//                         {
-//                             name: userData.username,
-//                             email: userData.email,
-//                         },
-//                     token,
-//                 });
-//         });
-//     } else if (!user) {
-//         return res.status(403).json({
-//             error: 'Wrong credentials',
-//         });
-//     } else {
-//         return res.status(404);
-//     }
-// }
+    const emailTest: ?SequelProResultType = await User.findOne({ where: { email } });
+    const emailTestData = emailTest ? emailTest.dataValues : null;
+    if (emailTestData) {
+        throw 'This email is already taken';
+    }
+
+    const hash = bcrypt.hashSync(password, 10);
+    const user: ?SequelProResultType = await User.create({ username, password: hash, email });
+
+    if (user) {
+        const result = await login(username, password);
+        return result;
+    }
+    throw 'Server error';
+}
+
 
 export {
-    login, // register,
+    login, register,
 };
 
