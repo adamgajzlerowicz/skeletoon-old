@@ -9,7 +9,7 @@ import type { $Request, $Response } from 'express';
 // $FlowFixMe
 import { hash } from '../.env.json';
 import User from './db/models/user';
-
+import { checkUser } from './db/queries/user';
 
 const port = process.env.PORT || 8080;
 const path = require('path');
@@ -41,41 +41,8 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-async function checkUser(username: string, password: string, res: $Response): $Response {
-    const user: ?SequelProResultType = await User.findOne({ where: { username } });
-    const userData = user ? user.dataValues : null;
-    if (userData) {
-        bcrypt.compare(password, userData.password, (err?: Error, valid: ?boolean): $Response => {
-            if (err || !valid) {
-                return res.status(403).json({
-                    error: 'Wrong credentials',
-                });
-            }
 
-            const token = jwt.sign(userData, hash, {
-                expiresIn: 60 * 60 * 24, // expires in 24 hours
-            });
-            return res.status(200)
-                .json({
-                    user:
-                        {
-                            name: userData.username,
-                            email: userData.email,
-                        },
-                    token,
-                });
-        });
-    } else if (!user) {
-        return res.status(403).json({
-            error: 'Wrong credentials',
-        });
-    } else {
-        return res.status(404);
-    }
-}
-
-
-app.post('/rest/auth/login', (req: $Request, res: $Response): $Response => {
+app.post('/rest/auth/login', async (req: $Request, res: $Response): $Response => {
     const { body: { username, password } } = req;
 
     if (!username) {
@@ -89,8 +56,8 @@ app.post('/rest/auth/login', (req: $Request, res: $Response): $Response => {
             error: 'Password is missing',
         });
     }
-
-    return checkUser(username, password, res);
+    const result = await checkUser(username, password, res);
+    return result;
 });
 
 
