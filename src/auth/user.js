@@ -22,7 +22,8 @@ type SequelProResultType = {
     isNewRecord: boolean
 };
 
-async function login(username: string, password: string): Promise<*> {
+
+const login = async (username: string, password: string): Promise<*> | Error => {
     const user: ?SequelProResultType = await User.findOne({ where: { username } });
     const userData = user ? user.dataValues : null;
 
@@ -30,7 +31,7 @@ async function login(username: string, password: string): Promise<*> {
         const valid = bcrypt.compareSync(password, userData.password);
 
         if (!valid) {
-            throw 'Wrong Credentias';
+            throw new Error('Wrong Credentias');
         }
 
         const token = jwt.sign(userData, process.env.HASH, {
@@ -45,23 +46,23 @@ async function login(username: string, password: string): Promise<*> {
             token,
         };
     } else if (!user) {
-        throw 'Wrong Credentias';
+        throw new Error('Wrong Credentias');
     } else {
-        throw 'Server error';
+        throw new Error('Server error');
     }
-}
+};
 
-async function register(username: string, password: string, email: string): Promise<*> {
+async function register(username: string, password: string, email: string): Promise<*> | Error {
     const usernameTest: ?SequelProResultType = await User.findOne({ where: { username } });
     const usernameTestData = usernameTest ? usernameTest.dataValues : null;
     if (usernameTestData) {
-        throw 'This username is already taken';
+        throw new Error('This username is already taken');
     }
 
     const emailTest: ?SequelProResultType = await User.findOne({ where: { email } });
     const emailTestData = emailTest ? emailTest.dataValues : null;
     if (emailTestData) {
-        throw 'This email is already taken';
+        throw new Error('This email is already taken');
     }
 
     const hash = bcrypt.hashSync(password, 10);
@@ -71,7 +72,7 @@ async function register(username: string, password: string, email: string): Prom
         const result = await login(username, password);
         return result;
     }
-    throw 'Server error';
+    throw new Error('Server error');
 }
 
 

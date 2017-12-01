@@ -71,8 +71,9 @@ app.post('/rest/auth/login', async (req: $Request, res: $Response): $Response =>
         return res.status(200)
             .json(user);
     } catch (e) {
-        return res.status(e === 'Server error' ? 404 : 403).json({
-            error: e,
+        const stringed = e.toString();
+        return res.status(stringed === 'Server error' ? 404 : 403).json({
+            error: stringed,
         });
     }
 });
@@ -110,7 +111,7 @@ app.post('/rest/auth/register', async (req: $Request, res: $Response): $Response
             .json(user);
     } catch (e) {
         return res.status(403).json({
-            error: e,
+            error: e.toString(),
         });
     }
 });
