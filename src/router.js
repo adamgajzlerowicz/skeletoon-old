@@ -41,7 +41,6 @@ class Nav extends React.Component<*, *> {
     render(): Element<*> {
         return (
             <div>
-                <RaisedButton label="Toggle Drawer" onClick={this.handleToggle} />
                 <Drawer open={this.state.open} docked>
                     <MenuItem><Link to="/">Home</Link></MenuItem>
                     <MenuItem><Link to="/about">About</Link></MenuItem>
@@ -55,25 +54,30 @@ class Nav extends React.Component<*, *> {
                             onClick={this.handleToggle}
                             onKeyDown={this.handleToggle}
                             role="presentation"
+                            style={{
+                                padding: 20,
+                                cursor: 'pointer',
+                            }}
                         >menu
                         </i>
                     </ToolbarGroup>
                     <ToolbarGroup>
-                        <ToolbarSeparator />
+                        Adam
                         <Avatar
                             src="https://image.flaticon.com/icons/png/512/0/93.png"
                             size={30}
                             style={{ margin: 5 }}
                         />
-                        <RaisedButton label="Create Broadcast" primary />
+                        <ToolbarSeparator />
+
                         <IconMenu iconButtonElement={
                             <IconButton touch>
                                 <NavigationExpandMoreIcon />
                             </IconButton>
                         }
                         >
-                            <MenuItem primaryText="Download" />
-                            <MenuItem primaryText="More Info" />
+                            <MenuItem primaryText="Logout" />
+                            <MenuItem primaryText="Profile" />
                         </IconMenu>
                     </ToolbarGroup>
                 </Toolbar>
