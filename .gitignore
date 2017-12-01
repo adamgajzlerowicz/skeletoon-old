@@ -22,4 +22,4 @@ yarn-error.log*
 
 .vscode
 .idea
-.env.json
+.env.server.local

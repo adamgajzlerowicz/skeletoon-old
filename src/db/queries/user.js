@@ -3,7 +3,25 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/user';
-import { hash } from '../../../.env.json';
+
+type UserType = {
+    id: number,
+    username: string,
+    email: string,
+    password: string,
+    createdAt: Date,
+    updatedAt: Date
+};
+
+type SequelProResultType = {
+    dataValues: UserType,
+    _previousDataValues: UserType,
+    _changed: {},
+    _modelOptions: {},
+    _options: {},
+    isNewRecord: boolean
+};
+
 
 async function checkUser(username: string, password: string, res: $Response): $Response {
     const user: ?SequelProResultType = await User.findOne({ where: { username } });
@@ -16,7 +34,7 @@ async function checkUser(username: string, password: string, res: $Response): $R
                 });
             }
 
-            const token = jwt.sign(userData, hash, {
+            const token = jwt.sign(userData, process.env.HASH, {
                 expiresIn: 60 * 60 * 24, // expires in 24 hours
             });
             return res.status(200)
@@ -49,7 +67,7 @@ async function createUser(username: string, password: string, res: $Response): $
                 });
             }
 
-            const token = jwt.sign(userData, hash, {
+            const token = jwt.sign(userData, process.env.HASH, {
                 expiresIn: 60 * 60 * 24, // expires in 24 hours
             });
             return res.status(200)

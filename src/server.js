@@ -6,14 +6,13 @@ import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 
 import type { $Request, $Response } from 'express';
-// $FlowFixMe
-import { hash } from '../.env.json';
 import User from './db/models/user';
 import { checkUser } from './db/queries/user';
 
 const port = process.env.PORT || 8080;
 const path = require('path');
 
+require('dotenv').config({ path: '.env.server.local' });
 
 type UserType = {
     id: number,
@@ -56,8 +55,12 @@ app.post('/rest/auth/login', async (req: $Request, res: $Response): $Response =>
             error: 'Password is missing',
         });
     }
-    const result = await checkUser(username, password, res);
-    return result;
+    try {
+        const result = await checkUser(username, password, res);
+        return result;
+    } catch (e) {
+        console.log('catching');
+    }
 });
 
 
