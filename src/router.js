@@ -12,16 +12,16 @@ import { ConnectedRouter as Router } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
-// import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
-// import IconMenu from 'material-ui/IconMenu';
-// import IconButton from 'material-ui/IconButton';
-// import FontIcon from 'material-ui/FontIcon';
-// import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import Avatar from 'material-ui/Avatar';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+
 
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-
 
 import type { Element } from 'react';
 
@@ -29,21 +29,13 @@ import store, { history } from './state/store';
 import Login from './components/auth/login';
 import Register from './components/auth/register';
 
-// const Navigation = (): Element<*> => (
-//     <ul>
-//         <li><Link to="/">Home</Link></li>
-//         <li><Link to="/about">About</Link></li>
-//         <li><Link to="/auth/login">Login</Link></li>
-//         <li><Link to="/auth/register">Register</Link></li>
-//     </ul>
-// );
 
 class Nav extends React.Component<*, *> {
     // constructor() {
     //     super();
     //     this.state = { open: false };
     // }
-    state = { open: true };
+    state = { open: false };
     handleToggle = (): void => this.setState({ open: !this.state.open });
 
     render(): Element<*> {
@@ -56,28 +48,40 @@ class Nav extends React.Component<*, *> {
                     <MenuItem><Link to="/auth/login">Login</Link></MenuItem>
                     <MenuItem><Link to="/auth/register">Register</Link></MenuItem>
                 </Drawer>
+                <Toolbar>
+                    <ToolbarGroup firstChild>
+                        <i
+                            className="material-icons"
+                            onClick={this.handleToggle}
+                            onKeyDown={this.handleToggle}
+                            role="presentation"
+                        >menu
+                        </i>
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+                        <ToolbarSeparator />
+                        <Avatar
+                            src="https://image.flaticon.com/icons/png/512/0/93.png"
+                            size={30}
+                            style={{ margin: 5 }}
+                        />
+                        <RaisedButton label="Create Broadcast" primary />
+                        <IconMenu iconButtonElement={
+                            <IconButton touch>
+                                <NavigationExpandMoreIcon />
+                            </IconButton>
+                        }
+                        >
+                            <MenuItem primaryText="Download" />
+                            <MenuItem primaryText="More Info" />
+                        </IconMenu>
+                    </ToolbarGroup>
+                </Toolbar>
             </div>
         );
     }
 }
-// <Toolbar>
-//     <ToolbarGroup firstChild />
-//     <ToolbarGroup>
-//         <ToolbarTitle text="Options" />
-//         <FontIcon className="muidocs-icon-custom-sort" />
-//         <ToolbarSeparator />
-//         <RaisedButton label="Create Broadcast" primary />
-//         <IconMenu iconButtonElement={
-//             <IconButton touch>
-//                 <NavigationExpandMoreIcon />
-//             </IconButton>
-//         }
-//         >
-//             <MenuItem primaryText="Download" />
-//             <MenuItem primaryText="More Info" />
-//         </IconMenu>
-//     </ToolbarGroup>
-// </Toolbar>
+
 const App = (): Element<*> => (
     <MuiThemeProvider>
         <Provider store={store}>

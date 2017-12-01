@@ -27,18 +27,18 @@ function* getSaga(action: ActionType): Generator<*, *, *> {
         if (action.callback) {
             yield put(action.callback(result));
         }
-        // yield put({ type: 'USER_FETCH_SUCCEEDED', payload: {} });
+    // yield put({ type: 'USER_FETCH_SUCCEEDED', payload: {} });
     } catch (e) {
-        // yield put({ type: 'USER_FETCH_FAILED', message: e.message });
+    // yield put({ type: 'USER_FETCH_FAILED', message: e.message });
     }
 }
 
 function* postSaga(action: ActionType): Generator<*, *, *> {
     try {
         yield call(doPost, action.payload);
-        // yield put({ type: 'USER_FETCH_SUCCEEDED', payload: {} });
+    // yield put({ type: 'USER_FETCH_SUCCEEDED', payload: {} });
     } catch (e) {
-        // yield put({ type: 'USER_FETCH_FAILED', message: e.message });
+    // yield put({ type: 'USER_FETCH_FAILED', message: e.message });
     }
 }
 

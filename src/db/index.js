@@ -23,7 +23,7 @@ const connection = new Sequelize(DB, SQL_LOGIN, SQL_PASSWORD, {
 
 connection.authenticate()
     .catch((err: {}) => {
-        // eslint-disable-next-line
+    // eslint-disable-next-line
         console.error('Unable to connect to the database:', err);
     });
 
