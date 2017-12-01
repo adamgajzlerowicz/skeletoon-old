@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 
 import type { $Request, $Response } from 'express';
 import User from './db/models/user';
-import { checkUser } from './db/queries/user';
+import { login } from './auth/user';
 
 const port = process.env.PORT || 8080;
 const path = require('path');
@@ -55,11 +55,15 @@ app.post('/rest/auth/login', async (req: $Request, res: $Response): $Response =>
             error: 'Password is missing',
         });
     }
+
     try {
-        const result = await checkUser(username, password, res);
-        return result;
+        const user = await login(username, password);
+        return res.status(200)
+            .json(user);
     } catch (e) {
-        console.log('catching');
+        return res.status(e === 'Server error' ? 404 : 403).json({
+            error: e,
+        });
     }
 });
 
@@ -84,7 +88,7 @@ app.post('/rest/auth/register', (req: $Request, res: $Response): $Response => {
             error: 'Email is missing',
         });
     }
-    return checkUser(username, password, res);
+    return login(username, password);
 });
 
 app.use('/static', express.static(path.join(__dirname, '../build/static')));
