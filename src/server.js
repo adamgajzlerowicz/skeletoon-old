@@ -1,48 +1,18 @@
 // @flow
 
 import express from 'express';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 
 import type { $Request, $Response } from 'express';
-import User from './db/models/user';
 import { login, register } from './auth/user';
+import { validateEmail, isStrongPassword } from './helpers';
 
 const port = process.env.PORT || 8080;
 const path = require('path');
 
 require('dotenv').config({ path: '.env.server.local' });
 
-type UserType = {
-    id: number,
-    username: string,
-    email: string,
-    password: string,
-    createdAt: Date,
-    updatedAt: Date
-};
-
-type SequelProResultType = {
-    dataValues: UserType,
-    _previousDataValues: UserType,
-    _changed: {},
-    _modelOptions: {},
-    _options: {},
-    isNewRecord: boolean
-};
-
 const app = express();
-
-const validateEmail = (email: string): boolean => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-};
-
-const isStrongPassword = (password: string): boolean => {
-    const regExp = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*()]).{8,}/;
-    return regExp.test(password);
-};
 
 app.use(bodyParser.urlencoded({
     extended: true,
