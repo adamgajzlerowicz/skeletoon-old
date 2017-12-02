@@ -2,14 +2,8 @@
 
 import React from 'react';
 import {
-    Route,
     Link,
 } from 'react-router-dom';
-import { Provider } from 'react-redux';
-
-import { ConnectedRouter as Router } from 'react-router-redux';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
 import FlatButton from 'material-ui/FlatButton';
@@ -17,22 +11,16 @@ import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import size from 'get-window-size';
-
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+
+import size from 'get-window-size';
+
 import type { Element } from 'react';
 
-import store, { history } from './state/store';
-import Login from './components/auth/login';
-import Register from './components/auth/register';
-
-import { Page } from './components/elements/page';
-
 const isMobile = (): boolean => size().width < 700;
-
 class Nav extends React.Component<*, *> {
-    state = { open: !isMobile() };
+    state = { open: false };
     handleToggle = (): void => this.setState({ open: !this.state.open });
     render(): Element<*> | null {
         const hideNav = ['/auth/register', '/auth/login'].includes(this.props.location.pathname);
@@ -104,37 +92,4 @@ class Nav extends React.Component<*, *> {
     }
 }
 
-const App = (): Element<*> => (
-    <MuiThemeProvider>
-        <Provider store={store}>
-            <Router history={history}>
-                <div>
-                    <Route path="/" component={Nav} />
-                    <div style={{
-                        marginLeft: 0,
-                    }}
-                    >
-                        <Route exact path="/" component={Home} />
-                        <Route path="/about" component={About} />
-                        <Route path="/auth/login" component={Login} />
-                        <Route path="/auth/register" component={Register} />
-                    </div>
-                </div>
-            </Router>
-        </Provider>
-    </MuiThemeProvider>
-);
-
-const Home = (): Element<*> => (
-    <Page header="Home">
-        <div>Home dupa</div>
-    </Page>
-);
-
-const About = (): Element<*> => (
-    <Page header="Home">
-        <div>About</div>
-    </Page>
-);
-
-export default App;
+export default Nav;
