@@ -83,7 +83,8 @@
         "react/jsx-indent-props": [
             2, 4
         ],
-        "click-events-have-key-events": 0
+        "click-events-have-key-events": 0,
+        "react/prefer-stateless-function": 0
     },
     "plugins": [
         "flowtype"

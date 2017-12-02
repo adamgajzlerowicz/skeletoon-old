@@ -11,8 +11,8 @@ import { ConnectedRouter as Router } from 'react-router-redux';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
+import FlatButton from 'material-ui/FlatButton';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
@@ -21,19 +21,24 @@ import size from 'get-window-size';
 
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import type { Element } from 'react';
 
 import store, { history } from './state/store';
 import Login from './components/auth/login';
 import Register from './components/auth/register';
 
+import { Page } from './components/elements/page';
+
 const isMobile = (): boolean => size().width < 700;
 
 class Nav extends React.Component<*, *> {
     state = { open: !isMobile() };
     handleToggle = (): void => this.setState({ open: !this.state.open });
-    render(): Element<*> {
+    render(): Element<*> | null {
+        const hideNav = ['/auth/register', '/auth/login'].includes(this.props.location.pathname);
+        if (hideNav) {
+            return null;
+        }
         const mobile = isMobile();
         return (
             <div>
@@ -55,14 +60,13 @@ class Nav extends React.Component<*, *> {
                         >menu
                         </i>
                     </Toolbar>
-                    <MenuItem><Link to="/">Home</Link></MenuItem>
-                    <MenuItem><Link to="/about">About</Link></MenuItem>
-                    <MenuItem><Link to="/auth/login">Login</Link></MenuItem>
-                    <MenuItem><Link to="/auth/register">Register</Link></MenuItem>
+                    <Link to="/"><FlatButton fullWidth>Home</FlatButton></Link>
+                    <Link to="/about"><FlatButton fullWidth>About</FlatButton></Link>
+                    <Link to="/auth/login"><FlatButton fullWidth>Login</FlatButton></Link>
+                    <Link to="/auth/register"><FlatButton fullWidth>Register</FlatButton></Link>
                 </Drawer>
                 <Toolbar>
                     <ToolbarGroup firstChild>
-
                         <i
                             className="material-icons"
                             onClick={this.handleToggle}
@@ -105,9 +109,9 @@ const App = (): Element<*> => (
         <Provider store={store}>
             <Router history={history}>
                 <div>
-                    <Nav />
+                    <Route path="/" component={Nav} />
                     <div style={{
-                        marginLeft: 256,
+                        marginLeft: 0,
                     }}
                     >
                         <Route exact path="/" component={Home} />
@@ -122,15 +126,15 @@ const App = (): Element<*> => (
 );
 
 const Home = (): Element<*> => (
-    <div>
-        <h2>Home dupa</h2>
-    </div>
+    <Page header="Home">
+        <div>Home dupa</div>
+    </Page>
 );
 
 const About = (): Element<*> => (
-    <div>
-        <h2>About</h2>
-    </div>
+    <Page header="Home">
+        <div>About</div>
+    </Page>
 );
 
 export default App;
