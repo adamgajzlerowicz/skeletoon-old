@@ -82,7 +82,7 @@ class Nav extends React.Component<*, *> {
                             </IconButton>
                         }
                         >
-                            <MenuItem primaryText="Logout" />
+                            <Link to="/auth/logout"><FlatButton fullWidth style={{ height: 49 }}>Logout</FlatButton></Link>
                             <MenuItem primaryText="Profile" />
                         </IconMenu>
                     </ToolbarGroup>

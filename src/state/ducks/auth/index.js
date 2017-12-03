@@ -1,6 +1,7 @@
 // @flow
 
 import { createFormAction } from 'redux-form-saga';
+import { push } from 'react-router-redux/actions';
 
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { SubmissionError, reset } from 'redux-form';
@@ -42,6 +43,8 @@ const registerAction = createFormAction(REGISTER);
 
 const logoutAction = createFormAction(LOGOUT);
 
+const logoutActionCreator = (): { type: string } => ({ type: SET_LOGOUT });
+
 type AuthType = {
     user: UserType,
     token: ?string
@@ -67,27 +70,16 @@ const reducer = (state: AuthType = initState, action: { type: string, payload: A
     }
 };
 
-function* setStorageDetails({ user, token }: { user?: UserType, token?: string }): Generator<*, *, *> {
-    if (user && token) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-    } else {
-        localStorage.clear();
-    }
-
-    yield true;
-}
-
 function* handleLoginSaga(action: { payload: LoginFormType }): Generator<*, *, *> {
     const { username, password } = action.payload;
 
     try {
         const result: SuccessResponseType = yield call(axios.post, '/rest/auth/login', { username, password });
         const { data: { token, user } } = result;
-        yield call(setStorageDetails, { token, user });
         yield put(loginAction.success());
         yield put(reset('login'));
         yield put({ type: SET_LOGIN, payload: { user, token } });
+        yield put(push('/'));
     } catch (e) {
         const formError = new SubmissionError({
             _error: (e.response && e.response.data && e.response.data.error) ? e.response.data.error : 'Server error',
@@ -103,7 +95,8 @@ function* handleRegisterSaga(action: { payload: RegisterFormType }): Generator<*
     try {
         const result: SuccessResponseType = yield call(axios.post, '/rest/auth/register', { email, username, password });
         const { data: { token, user } } = result;
-        yield call(setStorageDetails, { token, user });
+        yield put({ type: SET_LOGIN, payload: { user, token } });
+
         yield put(registerAction.success());
         yield put(reset('register'));
     } catch (e) {
@@ -115,15 +108,9 @@ function* handleRegisterSaga(action: { payload: RegisterFormType }): Generator<*
     }
 }
 
-function* handleLogoutSaga(): Generator<*, *, *> {
-    yield setStorageDetails({ name: null, email: null });
-    yield put({ type: SET_LOGOUT });
-}
-
 function* loginSaga(): Generator<*, *, *> {
     yield takeEvery(loginAction.REQUEST, handleLoginSaga);
     yield takeEvery(registerAction.REQUEST, handleRegisterSaga);
-    yield takeEvery(logoutAction.REQUEST, handleLogoutSaga);
 }
 
 export type {
@@ -131,6 +118,6 @@ export type {
 };
 
 export {
-    registerAction, loginSaga, logoutAction, loginAction, reducer, SET_LOGIN, SET_LOGOUT,
+    registerAction, loginSaga, logoutAction, loginAction, reducer, SET_LOGIN, SET_LOGOUT, logoutActionCreator,
 };
 
