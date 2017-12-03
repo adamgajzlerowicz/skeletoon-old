@@ -14,11 +14,8 @@ import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-mo
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 
-import size from 'get-window-size';
-
 import type { Element } from 'react';
 
-const isMobile = (): boolean => size().width < 700;
 class Nav extends React.Component<*, *> {
     state = { open: false };
     handleToggle = (): void => this.setState({ open: !this.state.open });
@@ -27,12 +24,11 @@ class Nav extends React.Component<*, *> {
         if (hideNav) {
             return null;
         }
-        const mobile = isMobile();
         return (
             <div>
                 <Drawer
                     open={this.state.open}
-                    docked={!mobile}
+                    docked={false}
                     onRequestChange={(open: boolean): void => this.setState({ open })}
                 >
                     <Toolbar style={{ padding: 0 }}>
@@ -48,8 +44,22 @@ class Nav extends React.Component<*, *> {
                         >menu
                         </i>
                     </Toolbar>
-                    <Link to="/"><FlatButton fullWidth>Home</FlatButton></Link>
-                    <Link to="/about"><FlatButton fullWidth>About</FlatButton></Link>
+                    <Link to="/">
+                        <FlatButton
+                            fullWidth
+                            onClick={(): void => this.setState({ open: false })}
+                        >
+                            Home
+                        </FlatButton>
+                    </Link>
+                    <Link to="/about">
+                        <FlatButton
+                            fullWidth
+                            onClick={(): void => this.setState({ open: false })}
+                        >
+                            About
+                        </FlatButton>
+                    </Link>
                     <Link to="/auth/login"><FlatButton fullWidth>Login</FlatButton></Link>
                     <Link to="/auth/register"><FlatButton fullWidth>Register</FlatButton></Link>
                 </Drawer>
@@ -87,7 +97,7 @@ class Nav extends React.Component<*, *> {
                         </IconMenu>
                     </ToolbarGroup>
                 </Toolbar>
-            </div>
+            </div >
         );
     }
 }

@@ -3163,10 +3163,6 @@ flow-config-parser@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/flow-config-parser/-/flow-config-parser-0.3.0.tgz#704916efba88cd2518ab4d8f933079571276138f"
 
-flow-runtime@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/flow-runtime/-/flow-runtime-0.14.0.tgz#bbbcb700b19a0a299ab403e807d69912ef077c16"
-
 flow-typed@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/flow-typed/-/flow-typed-2.2.3.tgz#e7a35915a0f4cfcf8068c1ce291b5c99e6b89efa"
@@ -3363,10 +3359,6 @@ get-stdin@^4.0.1:
 get-stream@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
-
-get-window-size@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/get-window-size/-/get-window-size-0.1.0.tgz#0bfe02a069b63459638a1cdf84484b76fc6cec64"
 
 getpass@^0.1.1:
   version "0.1.7"

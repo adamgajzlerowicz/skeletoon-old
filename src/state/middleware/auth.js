@@ -16,11 +16,12 @@ const logindRoutes = [
 ];
 
 // $FlowFixMe
-const authMiddleware = ({ getState, dispatch }: { getState: () => StateType, dispatch: Dispatch<*> }): * => (next: (*) => *) => (action: ActionType): * => { // eslint-disable-line
+const firewallMiddleware = ({ getState, dispatch }: { getState: () => StateType, dispatch: Dispatch<*> }): * => (next: (*) => *) => (action: ActionType): * => { // eslint-disable-line
 
     // protect routes
     if (action.type === '@@router/LOCATION_CHANGE'
-        && action.payload && protectedRoutes.includes(action.payload.pathname)) {
+        && !(getState().auth.user && getState().auth.token)
+        && protectedRoutes.includes(action.payload.pathname)) {
         return dispatch(push('/auth/login'));
     }
 
@@ -41,5 +42,5 @@ const authMiddleware = ({ getState, dispatch }: { getState: () => StateType, dis
 };
 
 export {
-    authMiddleware, authMiddleware as default,
+    firewallMiddleware, firewallMiddleware as default,
 };

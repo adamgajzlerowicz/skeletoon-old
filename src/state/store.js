@@ -11,7 +11,7 @@ import { reducer as formReducer } from 'redux-form';
 
 import rootSaga from './sagas';
 
-import { authMiddleware } from './middleware/auth';
+import { firewallMiddleware } from './middleware/auth';
 import { reducer as auth } from './ducks/auth';
 import type { AuthType } from './ducks/auth';
 
@@ -40,7 +40,7 @@ const enchancers = [];
 if (process.env.NODE_ENV !== 'test') {
     enchancers.push(StorePersist);
 }
-enchancers.push(applyMiddleware(authMiddleware, sagaMiddleware, routerReduxMiddleware));
+enchancers.push(applyMiddleware(firewallMiddleware, sagaMiddleware, routerReduxMiddleware));
 
 // eslint-disable-next-line
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
