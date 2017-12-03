@@ -22,8 +22,15 @@ type SequelProResultType = {
     isNewRecord: boolean
 };
 
+type UserReturnType = {
+    user: {
+        name: string,
+        email: string
+    },
+    token: string
+};
 
-const login = async (username: string, password: string): Promise<*> | Error => {
+const login = async (username: string, password: string): Promise<*> | Error | UserReturnType => {
     const user: ?SequelProResultType = await User.findOne({ where: { username } });
     const userData = user ? user.dataValues : null;
 
@@ -52,7 +59,7 @@ const login = async (username: string, password: string): Promise<*> | Error => 
     }
 };
 
-async function register(username: string, password: string, email: string): Promise<*> | Error {
+async function register(username: string, password: string, email: string): Promise<*> | Error | UserReturnType { //eslint-disable-line
     const usernameTest: ?SequelProResultType = await User.findOne({ where: { username } });
     const usernameTestData = usernameTest ? usernameTest.dataValues : null;
     if (usernameTestData) {

@@ -8,16 +8,23 @@ import createHistory from 'history/createBrowserHistory';
 
 import { reducer as formReducer } from 'redux-form';
 
-import type { ActionType } from './type';
-
 import rootSaga from './sagas';
 
-const sagaMiddleware = createSagaMiddleware();
+import { authMiddleware } from './middleware/auth';
 
+import type { ActionType } from './type';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const history = createHistory();
 
 const routerReduxMiddleware = routerMiddleware(history);
+
+type StateType = {
+    foo: {},
+    form: {},
+    router: {}
+};
 
 // const foo = <T>(state: T, action: ActionType): T => state;
 const foo = (state: {} = {}, action: ActionType): {} => state;
@@ -28,10 +35,15 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
     combineReducers({ router: routerReducer, form: formReducer, foo }),
     {},
-    composeEnhancers(applyMiddleware(sagaMiddleware, routerReduxMiddleware)),
+    // $FlowFixMe
+    composeEnhancers(applyMiddleware(authMiddleware, sagaMiddleware, routerReduxMiddleware)),
 );
 
 sagaMiddleware.run(rootSaga);
+
+export type {
+    StateType,
+};
 
 export {
     store as default, history,

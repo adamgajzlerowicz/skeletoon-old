@@ -32,6 +32,7 @@ const App = (): Element<*> => (
                     }}
                     >
                         <Route exact path="/" component={Home} />
+                        <Route exact path="/home" component={Home} />
                         <Route path="/about" component={About} />
                         <Route path="/auth/login" component={Login} />
                         <Route path="/auth/register" component={Register} />
