@@ -52,6 +52,7 @@ const initState: AuthType = {
     user: {
         name: undefined,
         email: undefined,
+        token: undefined,
     },
     token: undefined,
 };
@@ -87,7 +88,7 @@ function* handleLoginSaga(action: { payload: LoginFormType }): Generator<*, *, *
         yield call(setStorageDetails, { token, user });
         yield put(loginAction.success());
         yield put(reset('login'));
-        yield put({ action: LOGIN });
+        yield put({ type: SET_LOGIN, payload: { user, token } });
     } catch (e) {
         const formError = new SubmissionError({
             _error: (e.response && e.response.data && e.response.data.error) ? e.response.data.error : 'Server error',
@@ -117,6 +118,7 @@ function* handleRegisterSaga(action: { payload: RegisterFormType }): Generator<*
 
 function* handleLogoutSaga(): Generator<*, *, *> {
     yield setStorageDetails({ name: null, email: null });
+    yield put({ type: SET_LOGOUT });
 }
 
 function* loginSaga(): Generator<*, *, *> {

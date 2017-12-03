@@ -148,7 +148,6 @@
     "env": {
       "development": {
         "plugins": [
-          "flow-runtime",
           "transform-decorators-legacy"
         ]
       }
