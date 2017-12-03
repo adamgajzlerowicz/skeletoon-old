@@ -13,9 +13,8 @@ import rootSaga from './sagas';
 
 import { firewallMiddleware } from './middleware/auth';
 import { reducer as auth } from './ducks/auth';
-import type { AuthType } from './ducks/auth';
 
-import type { ActionType } from './type';
+import type { ActionType, StateType } from './type';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,12 +22,6 @@ const history = createHistory();
 
 const routerReduxMiddleware = routerMiddleware(history);
 
-type StateType = {
-    foo: {},
-    form: {},
-    router: {},
-    auth: AuthType
-};
 
 const StorePersist = persistState(['auth']);
 

@@ -53,10 +53,10 @@ type AuthType = {
 
 const initState: AuthType = {
     user: {
-        name: undefined,
-        email: undefined,
+        name: null,
+        email: null,
     },
-    token: undefined,
+    token: null,
 };
 
 const reducer = (state: AuthType = initState, action: { type: string, payload: AuthType }): AuthType => {

@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Link,
 } from 'react-router-dom';
@@ -16,90 +17,126 @@ import MenuItem from 'material-ui/MenuItem';
 
 import type { Element } from 'react';
 
+import type { StateType } from '../state/type';
+import type { AuthType } from '../state/ducks/auth';
+
 class Nav extends React.Component<*, *> {
     state = { open: false };
     handleToggle = (): void => this.setState({ open: !this.state.open });
     render(): Element<*> | null {
-        const hideNav = ['/auth/register', '/auth/login'].includes(this.props.location.pathname);
-        if (hideNav) {
-            return null;
-        }
+        const loggedIn = this.props.auth.token;
+        // const hideNav = ['/auth/register', '/auth/login'].includes(this.props.location.pathname);
+        // if (hideNav) {
+        // return null;
+        // }
+
         return (
             <div>
-                <Drawer
-                    open={this.state.open}
-                    docked={false}
-                    onRequestChange={(open: boolean): void => this.setState({ open })}
-                >
-                    <Toolbar style={{ padding: 0 }}>
-                        <i
-                            className="material-icons"
-                            onClick={this.handleToggle}
-                            onKeyDown={this.handleToggle}
-                            role="presentation"
-                            style={{
-                                padding: 20,
-                                cursor: 'pointer',
-                            }}
-                        >menu
-                        </i>
-                    </Toolbar>
-                    <Link to="/">
-                        <FlatButton
-                            fullWidth
-                            onClick={(): void => this.setState({ open: false })}
-                        >
-                            Home
-                        </FlatButton>
-                    </Link>
-                    <Link to="/about">
-                        <FlatButton
-                            fullWidth
-                            onClick={(): void => this.setState({ open: false })}
-                        >
-                            About
-                        </FlatButton>
-                    </Link>
-                    <Link to="/auth/login"><FlatButton fullWidth>Login</FlatButton></Link>
-                    <Link to="/auth/register"><FlatButton fullWidth>Register</FlatButton></Link>
-                </Drawer>
+                {loggedIn &&
+                    <Drawer
+                        open={this.state.open}
+                        docked={false}
+                        onRequestChange={(open: boolean): void => this.setState({ open })}
+                    >
+                        <Toolbar style={{ padding: 0 }}>
+                            <i
+                                className="material-icons"
+                                onClick={this.handleToggle}
+                                onKeyDown={this.handleToggle}
+                                role="presentation"
+                                style={{
+                                    padding: 20,
+                                    cursor: 'pointer',
+                                }}
+                            >menu
+                            </i>
+                        </Toolbar>
+                        <Link to="/">
+                            <FlatButton
+                                fullWidth
+                                onClick={(): void => this.setState({ open: false })}
+                            >
+                                Home
+                            </FlatButton>
+                        </Link>
+                        <Link to="/about">
+                            <FlatButton
+                                fullWidth
+                                onClick={(): void => this.setState({ open: false })}
+                            >
+                                About
+                            </FlatButton>
+                        </Link>
+                        <Link to="/auth/login"><FlatButton fullWidth>Login</FlatButton></Link>
+                        <Link to="/auth/register"><FlatButton fullWidth>Register</FlatButton></Link>
+                    </Drawer>}
                 <Toolbar>
                     <ToolbarGroup firstChild>
-                        <i
-                            className="material-icons"
-                            onClick={this.handleToggle}
-                            onKeyDown={this.handleToggle}
-                            role="presentation"
-                            style={{
-                                padding: 20,
-                                cursor: 'pointer',
-                            }}
-                        >menu
-                        </i>
+                        {loggedIn &&
+                            <i
+                                className="material-icons"
+                                onClick={this.handleToggle}
+                                onKeyDown={this.handleToggle}
+                                role="presentation"
+                                style={{
+                                    padding: 20,
+                                    cursor: 'pointer',
+                                }}
+                            >menu
+                            </i>}
+                        {!loggedIn &&
+                            <div>
+                                <Link to="/">
+                                    <FlatButton
+                                        fullWidth
+                                        onClick={(): void => this.setState({ open: false })}
+                                    >
+                                        Home
+                                    </FlatButton>
+                                </Link>
+                                <br />
+                                <Link to="/about">
+                                    <FlatButton
+                                        fullWidth
+                                        onClick={(): void => this.setState({ open: false })}
+                                    >
+                                        admin
+                                    </FlatButton>
+                                </Link>
+                            </div>}
                     </ToolbarGroup>
-                    <ToolbarGroup>
-                        Adam
-                        <Avatar
-                            src="https://image.flaticon.com/icons/png/512/0/93.png"
-                            size={30}
-                            style={{ margin: 5 }}
-                        />
-                        <ToolbarSeparator />
+                    {loggedIn &&
+                        <ToolbarGroup>
+                            {this.props.auth.user.name}
+                            <Avatar
+                                src="https://image.flaticon.com/icons/png/512/0/93.png"
+                                size={30}
+                                style={{ margin: 5 }}
+                            />
+                            <ToolbarSeparator />
 
-                        <IconMenu iconButtonElement={
-                            <IconButton touch>
-                                <NavigationExpandMoreIcon />
-                            </IconButton>
-                        }
-                        >
-                            <Link to="/auth/logout"><FlatButton fullWidth style={{ height: 49 }}>Logout</FlatButton></Link>
-                            <MenuItem primaryText="Profile" />
-                        </IconMenu>
-                    </ToolbarGroup>
+                            <IconMenu iconButtonElement={
+                                <IconButton touch>
+                                    <NavigationExpandMoreIcon />
+                                </IconButton>
+                            }
+                            >
+                                <Link to="/auth/logout">
+                                    <FlatButton fullWidth style={{ height: 49 }}>Logout</FlatButton>
+                                </Link>
+                                <MenuItem primaryText="Profile" />
+                            </IconMenu>
+                        </ToolbarGroup>}
                 </Toolbar>
             </div >
         );
     }
 }
 
-export default Nav;
+const mapState = (state: StateType): { auth: AuthType } => ({
+    auth: state.auth,
+});
+
+const ConnectedNav = connect(mapState)(Nav);
+
+export default ConnectedNav;
