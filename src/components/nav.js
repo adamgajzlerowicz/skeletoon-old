@@ -25,10 +25,21 @@ class Nav extends React.Component<*, *> {
     handleToggle = (): void => this.setState({ open: !this.state.open });
     render(): Element<*> | null {
         const loggedIn = this.props.auth.token;
-        // const hideNav = ['/auth/register', '/auth/login'].includes(this.props.location.pathname);
-        // if (hideNav) {
-        // return null;
-        // }
+        /*
+            scenarios to test:
+            user logged in>
+            -login doesnt open
+            -register doesn't open
+            -sidebar visible
+            -logout visible
+            -avatar visible
+            -oposite as below
+
+            user not logged in>
+            -oposite as above
+            -top nav visible
+        */
+
 
         return (
             <div>
