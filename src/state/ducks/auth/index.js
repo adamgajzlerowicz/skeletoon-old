@@ -52,7 +52,6 @@ const initState: AuthType = {
     user: {
         name: undefined,
         email: undefined,
-        token: undefined,
     },
     token: undefined,
 };

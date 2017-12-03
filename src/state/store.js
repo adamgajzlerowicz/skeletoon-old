@@ -30,7 +30,7 @@ type StateType = {
     auth: AuthType
 };
 
-const StorePersist = persistState(['foo', 'auth']);
+const StorePersist = persistState(['auth']);
 
 // const foo = <T>(state: T, action: ActionType): T => state;
 const foo = (state: {} = {}, action: ActionType): {} => state;
