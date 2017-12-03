@@ -27,10 +27,18 @@ type StateType = {
     router: {}
 };
 
+
 const StorePersist = persistState(['foo', 'auth']);
 
 // const foo = <T>(state: T, action: ActionType): T => state;
 const foo = (state: {} = {}, action: ActionType): {} => state;
+
+
+const enchancers = [];
+if (process.env.NODE_ENV !== 'test') {
+    enchancers.push(StorePersist);
+}
+enchancers.push(applyMiddleware(authMiddleware, sagaMiddleware, routerReduxMiddleware));
 
 // eslint-disable-next-line
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -39,7 +47,7 @@ const store = createStore(
     combineReducers({ router: routerReducer, form: formReducer, foo }),
     {},
     // $FlowFixMe
-    composeEnhancers(StorePersist, applyMiddleware(authMiddleware, sagaMiddleware, routerReduxMiddleware)),
+    composeEnhancers(...enchancers),
 );
 
 sagaMiddleware.run(rootSaga);

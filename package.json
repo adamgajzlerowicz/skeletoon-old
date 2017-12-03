@@ -24,6 +24,7 @@
     "css-loader": "0.28.7",
     "dotenv": "^4.0.0",
     "editorconfig": "^0.15.0",
+    "enzyme": "^3.2.0",
     "eslint-config-react-app": "^2.0.1",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "^2.39.1",
@@ -93,6 +94,7 @@
   "devDependencies": {
     "babel-plugin-flow-runtime": "^0.11.1",
     "concurrently": "^3.5.0",
+    "enzyme-adapter-react-16": "^1.1.0",
     "eslint": "^4.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "2.8.0",
