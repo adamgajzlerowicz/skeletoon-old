@@ -4,6 +4,7 @@
         "react-app"
     ],
     "rules": {
+        "max-len": [2, 124],
         "consistent-return": 0,
         "no-debugger": 0,
         "import/prefer-default-export": 0,

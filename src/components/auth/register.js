@@ -60,9 +60,19 @@ const RegisterForm = ({
         <form onSubmit={handleSubmit(onSubmit)}>
             <Field name="username" placeholder="login" style={{ width: '100%' }} component={TextField} />
             <Field name="email" placeholder="email" style={{ marginTop: 15, width: '100%' }} component={TextField} />
-            <Field name="password" type="password" placeholder="password" style={{ marginTop: 15, width: '100%' }} component={TextField} />
+            <Field
+                name="password"
+                type="password"
+                placeholder="password"
+                style={{ marginTop: 15, width: '100%' }}
+                component={TextField}
+            />
             <div style={{ width: '100%', display: 'flex' }}>
-                <Link to="/auth/login" style={{ flex: 1, fontSize: 10, textAlign: 'center', lineHeight: '36px' }}>already have an account</Link>
+                <Link
+                    to="/auth/login"
+                    style={{ flex: 1, fontSize: 10, textAlign: 'center', lineHeight: '36px' }}
+                >already have an account
+                </Link>
                 <Button type="submit" primary={valid} disabled={!valid && !submitting} style={{ flex: 1 }}>
                         Submit
                 </Button>

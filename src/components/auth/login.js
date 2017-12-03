@@ -55,10 +55,22 @@ const LoginForm = ({
         <h2>Login</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
             <Field name="username" placeholder="login" style={{ width: '100%' }} component={TextField} />
-            <Field name="password" type="password" placeholder="password" label="password" style={{ width: '100%' }} component={TextField} />
+            <Field
+                name="password"
+                type="password"
+                placeholder="password"
+                label="password"
+                style={{ width: '100%' }}
+                component={TextField}
+            />
 
             <div style={{ width: '100%', display: 'flex' }}>
-                <Link to="/auth/register" style={{ flex: 1, fontSize: 10, textAlign: 'center', lineHeight: '36px' }}>dont have an account</Link>
+                <Link
+                    to="/auth/register"
+                    style={{ flex: 1, fontSize: 10, textAlign: 'center', lineHeight: '36px' }}
+                >
+                    dont have an account
+                </Link>
                 <Button type="submit" primary={valid} disabled={!valid && !submitting} style={{ flex: 1 }}>
                     Submit
                 </Button>

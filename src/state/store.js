@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
+import persistState from 'redux-localstorage';
 
 import { reducer as formReducer } from 'redux-form';
 
@@ -26,6 +27,8 @@ type StateType = {
     router: {}
 };
 
+const StorePersist = persistState();
+
 // const foo = <T>(state: T, action: ActionType): T => state;
 const foo = (state: {} = {}, action: ActionType): {} => state;
 
@@ -36,7 +39,7 @@ const store = createStore(
     combineReducers({ router: routerReducer, form: formReducer, foo }),
     {},
     // $FlowFixMe
-    composeEnhancers(applyMiddleware(authMiddleware, sagaMiddleware, routerReduxMiddleware)),
+    composeEnhancers(StorePersist, applyMiddleware(authMiddleware, sagaMiddleware, routerReduxMiddleware)),
 );
 
 sagaMiddleware.run(rootSaga);

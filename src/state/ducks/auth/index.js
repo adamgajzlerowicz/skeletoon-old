@@ -43,10 +43,10 @@ const logoutAction = createFormAction(LOGOUT);
 // eslint-disable-next-line
 function* setStorageDetails({ user, token }: {user?: UserType, token?: string}): Generator<*, *, *> {
     if (user && token) {
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
     } else {
-        sessionStorage.clear();
+        localStorage.clear();
     }
 
     yield true;
