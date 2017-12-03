@@ -2,12 +2,12 @@
 
 import { createFormAction } from 'redux-form-saga';
 
-
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { SubmissionError, reset } from 'redux-form';
 import axios from 'axios';
 
 const LOGIN: string = 'LOGIN';
+const SET_LOGIN: string = 'SET_LOGIN';
 const REGISTER: string = 'REGISTER';
 const LOGOUT: string = 'LOGOUT';
 
@@ -23,8 +23,8 @@ type RegisterFormType = {
 };
 
 type UserType = {
-    name: string,
-    email: string
+    name: ?string,
+    email: ?string
 };
 
 type SuccessResponseType = {
@@ -34,14 +34,34 @@ type SuccessResponseType = {
     }
 };
 
+type AuthType = {
+    user: UserType,
+    token: ?string
+};
+
 const loginAction = createFormAction(LOGIN);
 
 const registerAction = createFormAction(REGISTER);
 
 const logoutAction = createFormAction(LOGOUT);
 
+const initState: AuthType = {
+    user: { name: undefined, email: undefined },
+    token: undefined,
+};
+
+const authReducer = (state: AuthType = initState, action: { type: string, payload: AuthType }): AuthType => {
+    switch (action.type) {
+    case SET_LOGIN:
+        return action.payload;
+    default:
+        return initState;
+    }
+};
+
+
 // eslint-disable-next-line
-function* setStorageDetails({ user, token }: {user?: UserType, token?: string}): Generator<*, *, *> {
+function* setStorageDetails({ user, token }: { user?: UserType, token?: string }): Generator<*, *, *> {
     if (user && token) {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
@@ -52,7 +72,7 @@ function* setStorageDetails({ user, token }: {user?: UserType, token?: string}):
     yield true;
 }
 
-function* handleLoginSaga(action: {payload: LoginFormType}): Generator<*, *, *> {
+function* handleLoginSaga(action: { payload: LoginFormType }): Generator<*, *, *> {
     const { username, password } = action.payload;
 
     try {
@@ -70,7 +90,7 @@ function* handleLoginSaga(action: {payload: LoginFormType}): Generator<*, *, *> 
     }
 }
 
-function* handleRegisterSaga(action: {payload: RegisterFormType}): Generator<*, *, *> {
+function* handleRegisterSaga(action: { payload: RegisterFormType }): Generator<*, *, *> {
     const { username, password, email } = action.payload;
 
     try {
@@ -99,6 +119,6 @@ function* loginSaga(): Generator<*, *, *> {
 }
 
 export {
-    registerAction, loginSaga, logoutAction, loginAction,
+    registerAction, loginSaga, logoutAction, loginAction, authReducer,
 };
 
