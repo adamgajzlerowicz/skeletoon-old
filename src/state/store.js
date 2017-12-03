@@ -27,7 +27,7 @@ type StateType = {
     router: {}
 };
 
-const StorePersist = persistState();
+const StorePersist = persistState(['foo', 'auth']);
 
 // const foo = <T>(state: T, action: ActionType): T => state;
 const foo = (state: {} = {}, action: ActionType): {} => state;

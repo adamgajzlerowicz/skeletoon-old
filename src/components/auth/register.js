@@ -12,7 +12,7 @@ import { TextField } from 'redux-form-material-ui';
 import type { Element } from 'react';
 
 import { registerAction } from '../../state/ducks/auth';
-
+import { validateEmail, isStrongPassword } from '../../helpers';
 import type { FormType } from './type';
 
 const validate = (data: FormType): FormType => {
@@ -20,12 +20,21 @@ const validate = (data: FormType): FormType => {
     if (!data.password) {
         errors.password = 'Please provide password';
     }
+
+    if (data.password && !isStrongPassword(data.password)) {
+        errors.password = 'Password is not strong enough';
+    }
+
     if (!data.username) {
         errors.username = 'Please provide login';
     }
 
     if (!data.email) {
-        errors.username = 'Please provide email';
+        errors.email = 'Please provide email';
+    }
+
+    if (data.email && !validateEmail(data.email)) {
+        errors.email = 'Please check format';
     }
 
     return errors;
