@@ -12,6 +12,8 @@ import { reducer as formReducer } from 'redux-form';
 import rootSaga from './sagas';
 
 import { authMiddleware } from './middleware/auth';
+import { reducer as auth } from './ducks/auth';
+import type { AuthType } from './ducks/auth';
 
 import type { ActionType } from './type';
 
@@ -24,9 +26,9 @@ const routerReduxMiddleware = routerMiddleware(history);
 type StateType = {
     foo: {},
     form: {},
-    router: {}
+    router: {},
+    auth: AuthType
 };
-
 
 const StorePersist = persistState(['foo', 'auth']);
 
@@ -44,7 +46,7 @@ enchancers.push(applyMiddleware(authMiddleware, sagaMiddleware, routerReduxMiddl
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-    combineReducers({ router: routerReducer, form: formReducer, foo }),
+    combineReducers({ router: routerReducer, form: formReducer, foo, auth }),
     {},
     // $FlowFixMe
     composeEnhancers(...enchancers),

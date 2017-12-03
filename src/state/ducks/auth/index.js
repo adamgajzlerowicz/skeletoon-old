@@ -56,7 +56,7 @@ const initState: AuthType = {
     token: undefined,
 };
 
-const authReducer = (state: AuthType = initState, action: { type: string, payload: AuthType }): AuthType => {
+const reducer = (state: AuthType = initState, action: { type: string, payload: AuthType }): AuthType => {
     switch (action.type) {
         case SET_LOGIN:
             return action.payload;
@@ -125,7 +125,11 @@ function* loginSaga(): Generator<*, *, *> {
     yield takeEvery(logoutAction.REQUEST, handleLogoutSaga);
 }
 
+export type {
+    AuthType,
+};
+
 export {
-    registerAction, loginSaga, logoutAction, loginAction, authReducer, SET_LOGIN, SET_LOGOUT,
+    registerAction, loginSaga, logoutAction, loginAction, reducer, SET_LOGIN, SET_LOGOUT,
 };
 
