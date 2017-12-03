@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const LOGIN: string = 'LOGIN';
 const SET_LOGIN: string = 'SET_LOGIN';
+const SET_LOGOUT: string = 'SET_LOGOUT';
 const REGISTER: string = 'REGISTER';
 const LOGOUT: string = 'LOGOUT';
 
@@ -34,10 +35,6 @@ type SuccessResponseType = {
     }
 };
 
-type AuthType = {
-    user: UserType,
-    token: ?string
-};
 
 const loginAction = createFormAction(LOGIN);
 
@@ -45,22 +42,31 @@ const registerAction = createFormAction(REGISTER);
 
 const logoutAction = createFormAction(LOGOUT);
 
+type AuthType = {
+    user: UserType,
+    token: ?string
+};
+
+
 const initState: AuthType = {
-    user: { name: undefined, email: undefined },
+    user: {
+        name: undefined,
+        email: undefined,
+    },
     token: undefined,
 };
 
 const authReducer = (state: AuthType = initState, action: { type: string, payload: AuthType }): AuthType => {
     switch (action.type) {
-    case SET_LOGIN:
-        return action.payload;
-    default:
-        return initState;
+        case SET_LOGIN:
+            return action.payload;
+        case SET_LOGOUT:
+            return initState;
+        default:
+            return state;
     }
 };
 
-
-// eslint-disable-next-line
 function* setStorageDetails({ user, token }: { user?: UserType, token?: string }): Generator<*, *, *> {
     if (user && token) {
         localStorage.setItem('token', token);
@@ -81,6 +87,7 @@ function* handleLoginSaga(action: { payload: LoginFormType }): Generator<*, *, *
         yield call(setStorageDetails, { token, user });
         yield put(loginAction.success());
         yield put(reset('login'));
+        yield put({ action: LOGIN });
     } catch (e) {
         const formError = new SubmissionError({
             _error: (e.response && e.response.data && e.response.data.error) ? e.response.data.error : 'Server error',
@@ -119,6 +126,6 @@ function* loginSaga(): Generator<*, *, *> {
 }
 
 export {
-    registerAction, loginSaga, logoutAction, loginAction, authReducer,
+    registerAction, loginSaga, logoutAction, loginAction, authReducer, SET_LOGIN, SET_LOGOUT,
 };
 

@@ -1,8 +1,4 @@
-
-// @flow
-
-import { authReducer } from './index';
-
+import { authReducer, SET_LOGIN, SET_LOGOUT } from './index';
 
 it('Auth logs user in', () => {
     const payload = {
@@ -14,10 +10,11 @@ it('Auth logs user in', () => {
             token: 'zarn',
         },
     };
-    expect(authReducer(undefined, { type: 'SET_LOGIN', payload })).toBe(payload);
-    expect(authReducer({}, { type: 'SET_LOGIN', payload })).toBe(payload);
-    expect(authReducer(payload, { type: 'SET_LOGIN', payload })).toBe(payload);
-    expect(authReducer({ foo: 'bar' }, { type: 'SET_LOGIN', payload })).toBe(payload);
+
+    expect(authReducer(undefined, { type: SET_LOGIN, payload })).toBe(payload);
+    expect(authReducer({}, { type: SET_LOGIN, payload })).toBe(payload);
+    expect(authReducer(payload, { type: SET_LOGIN, payload })).toBe(payload);
+    expect(authReducer({ foo: 'bar' }, { type: SET_LOGIN, payload })).toBe(payload);
 });
 
 it('Auth logs user out', () => {
@@ -30,6 +27,6 @@ it('Auth logs user out', () => {
             token: 'zarn',
         },
     };
-    expect(authReducer(payload, { type: 'SET_LOGOUT' }))
+    expect(authReducer(payload, { type: SET_LOGOUT }))
         .toMatchObject({ user: { email: undefined, name: undefined }, token: undefined });
 });
