@@ -20,7 +20,7 @@ import type { Element } from 'react';
 import type { StateType } from '../state/type';
 import type { AuthType } from '../state/ducks/auth';
 
-class Nav extends React.Component<*, *> {
+class Nav extends React.Component<{ auth: AuthType}, *> {
     state = { open: false };
     handleToggle = (): void => this.setState({ open: !this.state.open });
     render(): Element<*> | null {

@@ -24,6 +24,7 @@ type RegisterFormType = {
     email?: string
 };
 
+
 type UserType = {
     name: ?string,
     email: ?string

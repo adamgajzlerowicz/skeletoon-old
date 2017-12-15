@@ -9,7 +9,7 @@ const style = {
     flexDirection: 'column',
 };
 
-class Page extends React.Component<*, *> {
+class Page extends React.Component<{header: string, children: Element<*>}, *> {
     render(): Element<*> {
         return (
             <div style={style}>

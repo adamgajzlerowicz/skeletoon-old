@@ -32,7 +32,7 @@ type PromiseType = Promise<*>;
 type OnSubmitType = FormType => PromiseType;
 
 type FormPropsType = {
-    handleSubmit: (OnSubmitType)=>void,
+    handleSubmit: (OnSubmitType) => void,
     error: string | void,
     submitSucceeded: boolean,
     valid: boolean,
@@ -69,10 +69,10 @@ const LoginForm = ({
                     to="/auth/register"
                     style={{ flex: 1, fontSize: 10, textAlign: 'center', lineHeight: '36px' }}
                 >
-                    dont have an account
+                        dont have an account
                 </Link>
                 <Button type="submit" primary={valid} disabled={!valid && !submitting} style={{ flex: 1 }}>
-                    Submit
+                        Submit
                 </Button>
             </div>
             <div style={{ width: '100%', color: 'red' }}>{error}</div>
@@ -83,7 +83,7 @@ const LoginForm = ({
 
 const FormedLogin = reduxForm({ form: 'login', validate })(LoginForm);
 
-const mapDispatch = (dispatch: Dispatch<*>): {onSubmit: OnSubmitType} => ({
+const mapDispatch = (dispatch: Dispatch<*>): { } => ({
     onSubmit: loginAction,
 });
 
