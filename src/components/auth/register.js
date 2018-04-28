@@ -9,11 +9,13 @@ import {
 import Button from 'material-ui/RaisedButton';
 import { TextField } from 'redux-form-material-ui';
 
-import type { Element } from 'react';
 
 import { registerAction } from '../../state/ducks/auth';
 import { validateEmail, isStrongPassword } from '../../helpers';
+
 import type { FormType } from './type';
+import type { Element } from 'react';
+import type { Dispatch } from 'redux';
 
 const validate = (data: FormType): FormType => {
     const errors = {};
