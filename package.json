@@ -14,7 +14,6 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react-app": "^3.1.0",
     "babel-preset-stage-0": "^6.24.1",
-    "babel-runtime": "6.26.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
@@ -75,7 +74,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "start-app": "yarn concurrently 'babel-node src/server.js' 'node scripts/start.js'",
+    "start-app": "NODE_ENV=development yarn concurrently 'babel-node src/server.js' 'node scripts/start.js'",
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
@@ -90,7 +89,6 @@
     }
   },
   "devDependencies": {
-    "babel-plugin-flow-runtime": "^0.11.1",
     "concurrently": "^3.5.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "eslint": "^4.10.0",

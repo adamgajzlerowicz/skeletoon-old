@@ -3,9 +3,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import type { $Request, $Response } from 'express';
 import { login, register } from './auth/user';
 import { validateEmail, isStrongPassword } from './helpers';
+
+import type { $Request, $Response } from 'express';
 
 const port = process.env.PORT || 8080;
 const path = require('path');
